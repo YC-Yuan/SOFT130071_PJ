@@ -1,0 +1,27 @@
+#homeHot {
+    padding: 0;
+    margin: 0;
+}
+
+.d-block{
+    height: 800px;
+}
+
+/*首页热图浏览，左右对分，限定宽度借用float布局*/
+.homeHotImg {
+    padding: 0.5%;
+    height:300px;
+    overflow: hidden;
+}
+
+.homeHotImg img {
+    float: left;
+    height:100%;
+    width: auto;
+    margin-right: 1em;
+}
+
+.hotDiv {
+    padding: 10px 10px 10px 10px;
+    height:100%;
+}

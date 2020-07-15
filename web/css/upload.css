@@ -1,0 +1,8 @@
+/*上传后的图片*/
+#uploadedImg{
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.input-group-prepend{
+    width: 6.5rem; !important;
+}

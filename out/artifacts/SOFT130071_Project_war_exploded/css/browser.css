@@ -1,0 +1,50 @@
+body {
+    height: max-content;
+}
+
+/*左半部分工具栏*/
+aside{
+    max-width: 100%;
+}
+
+#searcher,.hotSection {
+    overflow: hidden;
+    font-size: 24px;
+    margin: 24px;
+}
+
+ul {
+    margin: 0;
+}
+
+li {
+    padding: 4px;
+}
+
+.hotSection a {
+    font-size: 20px;
+    text-decoration: none;
+    color: #34afab;
+}
+
+.hotSection a:hover {
+    color: #5bd5d9;
+}
+
+/*右半部分筛选+浏览*/
+select {
+    font-size: 18px;
+    margin-right: 3%;
+}
+
+/*下为浏览图片*/
+td {
+    width: 25%;
+    padding: 8px;
+}
+
+table img {
+    padding: 4px;
+    border: 2px solid #af926f;
+    width: 100%;
+}
