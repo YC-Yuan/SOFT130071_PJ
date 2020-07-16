@@ -42,7 +42,7 @@ function changeLink() {
     let country = countrySelect.options[countrySelect.selectedIndex].value;
     let city = citySelect.options[citySelect.selectedIndex].value;
 
-    let link = 'browser.php?';
+    let link = 'browser.jsp?';
     //key首字母小写以与单字段筛选区分
     if (content !== '0') link += 'content=' + content + '&';
     if (country !== '0') link += 'country=' + country + '&';

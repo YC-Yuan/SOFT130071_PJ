@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -41,7 +44,7 @@ if (isset($_GET['page'])) {
         <div id="navigation">
             <a href="home.php">Home</a>
             <a href="browser.php">Browser</a>
-            <a href="search.php">Searcher</a>
+            <a href="search.jsp">Searcher</a>
         </div>
         <?php
         //如果登陆了，正常展示，最后一个为退出登录
@@ -49,7 +52,7 @@ if (isset($_GET['page'])) {
             $UID = $_SESSION['UID'];
             echo '<div id="userMenu"><span>UserCenter</span>
             <ul>
-                <li><a href="upload.php"><img src="../../img/icon/upload.png" alt="upload" class="icon"> Upload</a>
+                <li><a href="upload.jsp"><img src="../../img/icon/upload.png" alt="upload" class="icon"> Upload</a>
                 </li>
                 <li><a href="mine.php" class="currentMenu" ><img src="../../img/icon/photo.png" alt="myphoto" class="icon"> MyPhoto</a></li>
                 <li><a href="favor.php"><img src="../../img/icon/favored.png" alt="favor" class="icon"> MyFavor</a>
@@ -101,7 +104,7 @@ if (isset($_GET['page'])) {
                     echo '<a href="details.php?imgId=' . $img['ImageID'] . '" class="content content-ellipsis my-1">' . $imgDescription . '</a>';
                     echo '<div class="btn-toolbar justify-content-end">';
                     echo '<div class="btn-group my-1" role="group" aria-label="Basic example">';
-                    echo '<form method="post" action="upload.php"><input type="hidden" name="imgId" value="' . $img['ImageID'] . '"><button type="submit" class="btn btn-secondary">Modify</button></form>';
+                    echo '<form method="post" action="upload.jsp"><input type="hidden" name="imgId" value="' . $img['ImageID'] . '"><button type="submit" class="btn btn-secondary">Modify</button></form>';
                     echo '<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
  Delete
 </button>

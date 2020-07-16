@@ -17,7 +17,7 @@ userName.addEventListener("input", function () {
             console.log(repetition);
         }
     }
-    xhr.open("get", "../checkNameExistence?userName=" + userName.value, true);
+    xhr.open("get", "checkNameExistence?userName=" + userName.value, true);
     xhr.send();
 });
 

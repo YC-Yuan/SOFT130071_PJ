@@ -1,34 +1,18 @@
-<%@ page import="priv.softPj.dao.impl.UserDaoImpl" %>
-<%@ page import="priv.softPj.pojo.Imgfavor" %>
-<%@ page import="java.util.List" %>
-<%@ page import="priv.softPj.dao.impl.ImgfavorDaoImpl" %>
-<%@ page import="priv.softPj.dao.impl.ImgDaoImpl" %>
-<%@ page import="priv.softPj.pojo.Img" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
     <title>Daddy-Login</title>
 
-    <!--bootstrap4-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../bootstrap4/css/bootstrap.css">
-
-    <!--css-->
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/navigation.css">
-    <link rel="stylesheet" href="../css/theme.css">
+    <!--静态引入page,base,css,jstl-->
+    <%@include file="common/head.jsp" %>
     <link rel="stylesheet" href="../css/repository.css">
-
-    <!--icon-->
-    <link rel="Shortcut Icon" href="../img/icon/icon.png" type="image/x-icon"/>
-
 </head>
 <body>
 
 <!--url process start-->
 <%
+    session.setAttribute("prePage","html/favor.jsp");
     int UID = (int) session.getAttribute("UID");//无值赋为0
 %>
 <!--url process end-->
@@ -38,16 +22,16 @@
     <!--navigation begin-->
     <nav>
         <div id="navigation">
-            <a href="home.php">Home</a>
-            <a href="browser.php">Browser</a>
-            <a href="search.php">Searcher</a>
+            <a href="home.jsp">Home</a>
+            <a href="browser.jsp">Browser</a>
+            <a href="search.jsp">Searcher</a>
         </div>
         <%
             //如果登陆了，正常展示，最后一个为退出登录
             if (UID != 0) {
                 out.write("<div id=\"userMenu\"><span>UserCenter</span><ul>" +
-                        "<li><a href = \"upload.php\" ><img src = \"../img/icon/upload.png\" class=\"icon\" >Upload</a ></li>" +
-                        "<li><a href = \"mine.php\" ><img src = \"../img/icon/photo.png\" class=\"icon\" >MyPhoto</a ></li>" +
+                        "<li><a href = \"upload.jsp\" ><img src = \"../img/icon/upload.png\" class=\"icon\" >Upload</a ></li>" +
+                        "<li><a href = \"mine.jsp\" ><img src = \"../img/icon/photo.png\" class=\"icon\" >MyPhoto</a ></li>" +
                         "<li><a class=\"currentMenu\" href = \"favor.php\" ><img src = \"../img/icon/favored.png\" alt = \"favor\" class=\"icon\">MyFavor</a></li>" +
                         "<li><a href = \"../php/logout.php\" ><img src = \"../img/icon/logout.png\" alt = \"logout\" class=\"icon\" >Logout</a></li></ul>" +
                         "</div >");
@@ -75,10 +59,10 @@
                 Img img = imgDao.queryImgById(imgId);
 
                 out.write("<div class=\"repository-box p-2\">" +
-                        "<a href=\"details.php?imgId=" + img.getUid() + "\" class=\"repository-img\"><img src=\"../img/travel/" + img.getPath() + "\" alt=\"myFavored\"></a>" +
+                        "<a href=\"details.jsp?imgId=" + img.getUid() + "\" class=\"repository-img\"><img src=\"../img/travel/" + img.getPath() + "\" alt=\"myFavored\"></a>" +
                         "<div class=\"repository-content container-ellipsis\">" +
-                        "<a href=\"details.php?imgId=" + img.getImageId() + "\" class=\"title my-1\">" + img.getTitle() + "</a>" +
-                        "<a href=\"details.php?imgId=" + img.getImageId() + "\" class=\"content content-ellipsis my-1\">" + img.getDescription() + "</a>" +
+                        "<a href=\"details.jsp?imgId=" + img.getImageId() + "\" class=\"title my-1\">" + img.getTitle() + "</a>" +
+                        "<a href=\"details.jsp?imgId=" + img.getImageId() + "\" class=\"content content-ellipsis my-1\">" + img.getDescription() + "</a>" +
                         "<div class=\"btn-toolbar justify-content-end\">" +
                         "<div class=\"btn-group my-1\" role=\"group\" aria-label=\"Basic example\">" +
                         "<a href=\"favor.php?delete=" + img.getImageId() + "\"><button type=\"button\" class=\"btn btn-danger\">Delete</button></a>" +

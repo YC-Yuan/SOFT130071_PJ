@@ -1,23 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Daddy-Login</title>
 
-    <!--bootstrap4-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../bootstrap4/css/bootstrap.css">
-
-    <!--css-->
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/navigation.css">
-    <link rel="stylesheet" href="../css/theme.css">
-    <link rel="stylesheet" href="../css/login.css">
-
-    <!--icon-->
-    <link rel="Shortcut Icon" href="../img/icon/icon.png" type="image/x-icon"/>
+    <!--静态引入page,base,css,jstl-->
+    <%@include file="common/head.jsp" %>
+    <link rel="stylesheet" href="css/login.css">
 
 </head>
 <body>
@@ -30,7 +20,7 @@
 %>
 <!--url process end-->
 
-<img src="../img/icon/3Fish1Tea.png" alt="icon">
+<img src="img/icon/3Fish1Tea.png" alt="icon">
 <h1 class="title text-big">Welcome to DaddyTravel</h1>
 <h3 class="title text-sm">Share photos you love!</h3>
 
@@ -59,26 +49,21 @@
     </div>
     <button type="submit" id="submit" class="btn btn-light text-mid info">Register</button>
     <div id="div"></div>
-    <a href="home.php" class="text-mid info">Browse without account</a>
+    <a href="html/home.jsp" class="text-mid info">Browse without account</a>
 </form>
 <!--registerForm end-->
 
 <!--footer begin-->
-<footer>
-    <hr>
-    <p>沪私危备案74751号</p>
-    <p>版权&copy;2001-2020 DaddyTravel 版权所有</p>
-    <p>联系我们19302010020@fudan.edu.cn</p>
-</footer>
+<%@include file="common/footer.jsp" %>
 <!--footer end-->
 
 <!--bootstrap4-->
-<script src="../bootstrap4/jquery-3.5.1.min.js"></script>
-<script src="../bootstrap4/popper.min.js"></script>
-<script src="../bootstrap4/js/bootstrap.js"></script>
+<script src="bootstrap4/jquery-3.5.1.min.js"></script>
+<script src="bootstrap4/popper.min.js"></script>
+<script src="bootstrap4/js/bootstrap.js"></script>
 
 <!--js-->
-<script src="../js/registerValidity.js"></script>
+<script src="js/registerValidity.js"></script>
 
 </body>
 </html>

@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +35,7 @@ session_start();
         <div id="navigation">
             <a href="home.php">Home</a>
             <a href="browser.php">Browser</a>
-            <a href="search.php">Searcher</a>
+            <a href="search.jsp">Searcher</a>
         </div>
         <?php
         //如果登陆了，正常展示，最后一个为退出登录
@@ -40,9 +43,9 @@ session_start();
             $UID = $_SESSION['UID'];
             echo '<div id="userMenu"><span>UserCenter</span>
             <ul>
-                <li><a href="upload.php"><img src="../../img/icon/upload.png" alt="upload" class="icon"> Upload</a>
+                <li><a href="upload.jsp"><img src="../../img/icon/upload.png" alt="upload" class="icon"> Upload</a>
                 </li>
-                <li><a href="mine.php"><img src="../../img/icon/photo.png" alt="myphoto" class="icon"> MyPhoto</a></li>
+                <li><a href="mine.jsp"><img src="../../img/icon/photo.png" alt="myphoto" class="icon"> MyPhoto</a></li>
                 <li><a href="favor.php"><img src="../../img/icon/favored.png" alt="favor" class="icon"> MyFavor</a>
                 </li>
                 <li><a href="../php/logout.php"><img src="../../img/icon/logout.png" alt="logout" class="icon"> Logout</a>

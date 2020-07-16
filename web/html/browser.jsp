@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -44,33 +47,8 @@ if (isset($_GET['keyword'])) {
 
 <header>
     <!--navigation begin-->
-    <nav>
-        <div id="navigation">
-            <a href="home.php">Home</a>
-            <a class="currentPage" href="browser.php">Browser</a>
-            <a href="search.php">Searcher</a>
-        </div>
-        <?php
-        //如果登陆了，正常展示，最后一个为退出登录
-        if (isset($_SESSION['UID'])) {
-            echo '<div id="userMenu"><span>UserCenter</span>
-            <ul>
-                <li><a href="upload.php"><img src="../../img/icon/upload.png" alt="upload" class="icon"> Upload</a>
-                </li>
-                <li><a href="mine.php"><img src="../../img/icon/photo.png" alt="myphoto" class="icon"> MyPhoto</a></li>
-                <li><a href="favor.php"><img src="../../img/icon/favored.png" alt="favor" class="icon"> MyFavor</a>
-                </li>
-                <li><a href="../php/logout.php"><img src="../../img/icon/logout.png" alt="logout" class="icon"> Logout</a>
-                </li>
-            </ul>
-        </div>';
-        } //如果没登录，整个改成登录
-        else {
-            echo '<div id="userMenu"><a href="login.php">Login</a>';
-        }
-        ?>
-        <br>
-    </nav>
+    <%@include file="common/navigation.jsp" %>
+    <script>document.getElementById("navigation").children[1].className = "currentPage"</script>
     <!--navigation end-->
 </header>
 
@@ -207,7 +185,7 @@ if (isset($_GET['keyword'])) {
                             }
                             echo '</tr>';
                         }
-                        // echo '<td><a href="details.php"><img class="tool" src="../../img/icon/3Fish1Tea.png" alt="布局用工具图"></a></td>';
+                        // echo '<td><a href="details.jsp"><img class="tool" src="../../img/icon/3Fish1Tea.png" alt="布局用工具图"></a></td>';
                         echo '</table>';
                     }
 
@@ -216,7 +194,7 @@ if (isset($_GET['keyword'])) {
                         $imgPath = $img['PATH'];
                         $imgId = $img['ImageID'];
                         echo '<td>';
-                        echo '<a href="details.php?imgId=' . $imgId . '"><img src="../../img/travel/' . $imgPath . '" alt="浏览图片" class="squareImg"></a>';
+                        echo '<a href="details.jsp?imgId=' . $imgId . '"><img src="../../img/travel/' . $imgPath . '" alt="浏览图片" class="squareImg"></a>';
                         echo '</td>';
                     }
 
