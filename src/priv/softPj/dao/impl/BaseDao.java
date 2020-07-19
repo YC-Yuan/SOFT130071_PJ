@@ -17,10 +17,10 @@ public abstract class BaseDao {
     private QueryRunner queryRunner = new QueryRunner();
 
     //返回-1失败，其他数字表示影响的行数
-    public int update(String sql,Object... args) {
+    public int update(String sql, Object... args) {
         Connection conn = JdbcUtils.getConnection();
         try {
-            return queryRunner.update(conn,sql,args);
+            return queryRunner.update(conn, sql, args);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -30,10 +30,10 @@ public abstract class BaseDao {
     }
 
     //查询返回一个javabean对象，type为对象类型，<T>为返回类型的泛型
-    public <T> T queryForOne(Class<T> type,String sql,Object... args) {
+    public <T> T queryForOne(Class<T> type, String sql, Object... args) {
         Connection conn = JdbcUtils.getConnection();
         try {
-            return queryRunner.query(conn,sql,new BeanHandler<T>(type),args);
+            return queryRunner.query(conn, sql, new BeanHandler<T>(type), args);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -43,10 +43,10 @@ public abstract class BaseDao {
     }
 
     //查询返回多个javabean的List
-    public <T> List<T> queryForList(Class<T> type,String sql,Object... args) {
+    public <T> List<T> queryForList(Class<T> type, String sql, Object... args) {
         Connection conn = JdbcUtils.getConnection();
         try {
-            return queryRunner.query(conn,sql,new BeanListHandler<T>(type),args);
+            return queryRunner.query(conn, sql, new BeanListHandler<T>(type), args);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -56,18 +56,15 @@ public abstract class BaseDao {
     }
 
     //返回一行一列
-    public Object queryForValue(String sql,Object... args) {
+    public <T> T queryForValue(String sql, Object... args) {
         Connection conn = JdbcUtils.getConnection();
         try {
-            return queryRunner.query(conn,sql,new ScalarHandler(),args);
+            return (T) queryRunner.query(conn, sql, new ScalarHandler(), args);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             JdbcUtils.close(conn);
         }
         return null;
     }
-
-
-
 }

@@ -1,24 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>3Fish1Tea-Searcher</title>
+    <title>Daddy-Searcher</title>
 
-    <!--bootstrap4-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../bootstrap4/css/bootstrap.css">
-
-    <!--css-->
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/navigation.css">
-    <link rel="stylesheet" href="../css/theme.css">
-    <link rel="stylesheet" href="../css/browser.css">
-
-    <!--icon-->
-    <link rel="Shortcut Icon" href="../../img/icon/icon.png" type="image/x-icon"/>
+    <!--静态引入page,base,css,jstl-->
+    <%@include file="common/head.jsp" %>
+    <link rel="stylesheet" href="css/browser.css">
 
 </head>
 <body>

@@ -26,7 +26,7 @@
     font-size: 24px;
     line-height: 1.4;
 
-    white-space: nowrap;
+    /*white-space: nowrap;*/
     text-overflow: ellipsis;
 
     text-decoration: none;
@@ -95,41 +95,6 @@
 
 .repository-color {
     background-color: rgba(255, 255, 255, 0.6);
-}
-
-/*浮动按钮*/
-.floatButton {
-    box-sizing: border-box;
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    font-size: 0;
-    width: 4%;
-}
-
-.floatButton-home{
-    box-sizing: border-box;
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    font-size: 0;
-    width:8%;
-}
-
-.floatButton img {
-    width: 100%;
-    border: 5px dashed #af926f;
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.floatButton-home img{
-    width: 50%;
-    border: 5px dashed #af926f;
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.floatButton img:hover ,.floatButton-home img:hover{
-    border: 5px solid #75634a
 }
 
 /*页码*/

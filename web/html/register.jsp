@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Daddy-Login</title>
+    <title>Daddy-Register</title>
 
     <!--静态引入page,base,css,jstl-->
     <%@include file="common/head.jsp" %>
@@ -13,11 +13,6 @@
 <body>
 
 <!--url process start-->
-<%
-    //从POST中获取注册信息（能够POST说明必然符合条件）
-    //servlet更新数据库
-    //设置session，并跳转到之前的页面（每次进入页面时在HTTPSession中更新，login和register不更新）
-%>
 <!--url process end-->
 
 <img src="img/icon/3Fish1Tea.png" alt="icon">

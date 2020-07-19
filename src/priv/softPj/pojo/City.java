@@ -3,7 +3,7 @@ package priv.softPj.pojo;
 
 public class City {
 
-  private long cityId;
+  private long cityCode;
   private String cityName;
   private String countryCode;
   private long population;
@@ -11,11 +11,11 @@ public class City {
 
 
   public long getCityId() {
-    return cityId;
+    return cityCode;
   }
 
   public void setCityId(long cityId) {
-    this.cityId = cityId;
+    this.cityCode = cityCode;
   }
 
 

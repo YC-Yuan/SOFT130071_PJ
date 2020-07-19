@@ -1,106 +1,112 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<html lang="zh-cn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Daddy-Login</title>
+    <title>Daddy-Favor</title>
 
     <!--静态引入page,base,css,jstl-->
     <%@include file="common/head.jsp" %>
-    <link rel="stylesheet" href="../css/repository.css">
+    <link rel="stylesheet" href="css/repository.css">
+
 </head>
 <body>
 
 <!--url process start-->
-<%
-    session.setAttribute("prePage","html/favor.jsp");
-    int UID = (int) session.getAttribute("UID");//无值赋为0
-%>
+<%--<%--%>
+<%--    if (request.getParameter("page") == null) request.setAttribute("page", (long) 1);--%>
+<%--    else request.setAttribute("page", Long.parseLong(request.getParameter("page")));--%>
+<%--%>--%>
+<%--<% if (request.getAttribute("img") == null) request.getRequestDispatcher("/favor").forward(request, response);%>--%>
 <!--url process end-->
 
 
 <header>
     <!--navigation begin-->
-    <nav>
-        <div id="navigation">
-            <a href="home.jsp">Home</a>
-            <a href="browser.jsp">Browser</a>
-            <a href="search.jsp">Searcher</a>
-        </div>
-        <%
-            //如果登陆了，正常展示，最后一个为退出登录
-            if (UID != 0) {
-                out.write("<div id=\"userMenu\"><span>UserCenter</span><ul>" +
-                        "<li><a href = \"upload.jsp\" ><img src = \"../img/icon/upload.png\" class=\"icon\" >Upload</a ></li>" +
-                        "<li><a href = \"mine.jsp\" ><img src = \"../img/icon/photo.png\" class=\"icon\" >MyPhoto</a ></li>" +
-                        "<li><a class=\"currentMenu\" href = \"favor.php\" ><img src = \"../img/icon/favored.png\" alt = \"favor\" class=\"icon\">MyFavor</a></li>" +
-                        "<li><a href = \"../php/logout.php\" ><img src = \"../img/icon/logout.png\" alt = \"logout\" class=\"icon\" >Logout</a></li></ul>" +
-                        "</div >");
-            } //如果没登录，整个改成登录
-            else {
-                out.print("<div id=\"userMenu\"><a href=\"login.php\">Login</a>");
-            }
-        %>
-        <br>
-    </nav>
+    <%@include file="common/navigation.jsp" %>
+    <script>document.getElementById("userMenu").children[1].children[2].children[0].className = "currentMenu"</script>
     <!--navigation end-->
 </header>
 <!--repository begin-->
-<div id="repository" class="container bd-form mx-auto my-3 p-0 repository-color">
+<div id="repository" class="containe bd-form mx-auto my-3 p-0 repository-color justify-content-center">
     <h1 class="title text-big text-center">My Favor</h1>
-    <%
-        if (UID != 0) {//如果登录
-            //查询收藏，计算页数
-            ImgfavorDaoImpl imgfavorDao = new ImgfavorDaoImpl();
-            ImgDaoImpl imgDao = new ImgDaoImpl();
-            List<Imgfavor> imgfavorList = imgfavorDao.queryFavorByUID(UID);
-            for (Imgfavor imgfavor : imgfavorList) {
-                //输出一张图
-                int imgId = (int) imgfavor.getImageId();
-                Img img = imgDao.queryImgById(imgId);
-
-                out.write("<div class=\"repository-box p-2\">" +
-                        "<a href=\"details.jsp?imgId=" + img.getUid() + "\" class=\"repository-img\"><img src=\"../img/travel/" + img.getPath() + "\" alt=\"myFavored\"></a>" +
-                        "<div class=\"repository-content container-ellipsis\">" +
-                        "<a href=\"details.jsp?imgId=" + img.getImageId() + "\" class=\"title my-1\">" + img.getTitle() + "</a>" +
-                        "<a href=\"details.jsp?imgId=" + img.getImageId() + "\" class=\"content content-ellipsis my-1\">" + img.getDescription() + "</a>" +
-                        "<div class=\"btn-toolbar justify-content-end\">" +
-                        "<div class=\"btn-group my-1\" role=\"group\" aria-label=\"Basic example\">" +
-                        "<a href=\"favor.php?delete=" + img.getImageId() + "\"><button type=\"button\" class=\"btn btn-danger\">Delete</button></a>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>");
-            }
-        }
-    %>
+        <iframe src="html/iframe/favorPage.jsp?page=1" id="iframePage" onload="iframeSatisfy()" width="900px" scrolling="no"></iframe>
+<%--    <c:if test="${requestScope.num==0}">--%>
+<%--        <div class="repository-box p-2 "><p class="text-big info-img text-center">Try to favor photo you like!<br/>You--%>
+<%--            can favor any photo in details page(click the photo)~</p></div>--%>
+<%--    </c:if>--%>
+<%--    <c:forEach items="${requestScope.img}" varStatus="s">--%>
+<%--        <div class="repository-box p-2">--%>
+<%--            <a href="html/details.jsp?imgId=${requestScope.img[s.index].imageId}" class="repository-img">--%>
+<%--                <img src="img/travel/${requestScope.img[s.index].path}" alt="myFavor"></a>--%>
+<%--            <div class="repository-content container-ellipsis">--%>
+<%--                <a href="html/details.jsp?imgId=${requestScope.img[s.index].imageId}"--%>
+<%--                   class="title my-1">${requestScope.img[s.index].title}</a>--%>
+<%--                <a href="html/details.jsp?imgId=${requestScope.img[s.index].imageId}"--%>
+<%--                   class="content content-ellipsis my-1">${requestScope.img[s.index].description==null?"The author said nothiing":requestScope.img[s.index].description}</a>--%>
+<%--                <div class="btn-toolbar justify-content-end">--%>
+<%--                    <div class="btn-group my-1" role="group" aria-label="Basic example">--%>
+<%--                        <a href="deleteFavor?deleteId=${requestScope.img[s.index].imageId}">--%>
+<%--                            <button type="button" class="btn btn-danger">--%>
+<%--                                Delete--%>
+<%--                            </button>--%>
+<%--                        </a>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </c:forEach>--%>
+<%--    <div id="page">--%>
+<%--        <%--%>
+<%--            long pageCurrent = (long) request.getAttribute("page");--%>
+<%--            long pageNum = (long) request.getAttribute("pageNum");--%>
+<%--            long pagePrevious = Math.max(1, pageCurrent - 1);--%>
+<%--            long pageEnd = Math.min(pageCurrent + 4, pageNum);--%>
+<%--            long pageNext = Math.min(pageCurrent + 1, pageEnd);--%>
+<%--        %>--%>
+<%--        <a href="html/favor.jsp?page=1">First</a>--%>
+<%--        <a href="html/favor.jsp?page=<%=pagePrevious%>">Previous</a>--%>
+<%--        <c:forEach varStatus="s" begin="<%=(int)pagePrevious%>" end="<%=(int)pageEnd%>">--%>
+<%--            <c:if test="${s.index==page}"><strong>${page}</strong></c:if>--%>
+<%--            <c:if test="${s.index!=page}"><a href="html/favor.jsp?page=${s.index}">${s.index}</a></c:if>--%>
+<%--        </c:forEach>--%>
+<%--        <a href="html/favor.jsp?page=<%=pageNext%>">Next</a>--%>
+<%--        <a href="html/favor.jsp?page=<%=pageNum%>">Last (<%=pageNum%> in all)</a>--%>
+<%--    </div>--%>
 </div>
+<button onclick="tryFun();iframeSatisfy();">
+    try
+</button>
 
 <!--repository end-->
 
-<!--buttons begin-->
-<div class="floatButton">
-    <a href="#navigation">
-        <img id="toTop" src="../img/icon/toTop.png" alt="toTopButton">
-    </a>
-</div>
-<!--buttons end-->
-
 <!--footer begin-->
-<footer>
-    <hr>
-    <p>沪私危备案74751号</p>
-    <p>版权&copy;2001-2020 3Fish1Tea三鱼一茶 版权所有</p>
-    <p>联系我们19302010020@fudan.edu.cn</p>
-</footer>
+<%@include file="common/footer.jsp" %>
 <!--footer end-->
 </body>
 
 <!--bootstrap4-->
-<script src="../bootstrap4/jquery-3.5.1.min.js"></script>
-<script src="../bootstrap4/popper.min.js"></script>
-<script src="../bootstrap4/js/bootstrap.js"></script>
+<script src="js/bootstrap4/jquery-3.5.1.min.js"></script>
+<script src="js/bootstrap4/popper.min.js"></script>
+<script src="js/bootstrap4/js/bootstrap.js"></script>
+
+<script>
+    function iframeSatisfy() {
+        let iframe = document.getElementById("iframePage");
+        let bHeight = iframe.contentWindow.document.body.scrollHeight;
+        let dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+        let height = Math.max(bHeight, dHeight);
+        iframe.height = height;
+    }
+
+    function tryFun(){
+        let iframe = document.getElementById("iframePage");
+        iframe.src='html/iframe/favorPage.jsp?page=2';
+
+
+    }
+</script>
 
 <!--js-->
-<script src="../js/textEllipsis.js"></script>
-<script src="../js/favor.js"></script>
+<script src="js/textEllipsis.js"></script>
 </html>

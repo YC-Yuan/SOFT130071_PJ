@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Daddy-Home</title>
@@ -13,45 +13,26 @@
 <body>
 
 <!--url process start-->
+<% if (request.getAttribute("imgHot") == null) request.getRequestDispatcher("/home").forward(request, response);%>
 <!--url process end-->
 
 <header>
     <!--navigation begin-->
     <%@include file="common/navigation.jsp" %>
-    <script>document.getElementById("navigation").children[0].className = "currentPage"</script>
+    <script>document.getElementById("navigation").children[1].className = "currentPage"</script>
     <!--navigation end-->
 
     <!--homeCarousel begin-->
     <div id="homeCarousel" class="carousel slide carousel-fade m-auto w-50" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <?php
-                $carousel = getHotRandom(3);
-                $img = $carousel->fetch();
-                echo '<a href="details.jsp?imgId=' . $img['ImageID'] . '">';
-                ?>
-                <img class="m-auto d-block" src="img/travel/<?php
-                echo $img['PATH'];
-                ?>" alt="First slide"><?php echo '</a>'; ?>
-            </div>
-            <div class="carousel-item">
-                <?php
-                $img = $carousel->fetch();
-                echo '<a href="details.jsp?imgId=' . $img['ImageID'] . '">';
-                ?>
-                <img class="m-auto d-block" src="img/travel/<?php
-                echo $img['PATH'];
-                ?>" alt="Second slide"><?php echo '</a>'; ?>
-            </div>
-            <div class="carousel-item">
-                <?php
-                $img = $carousel->fetch();
-                echo '<a href="details.jsp?imgId=' . $img['ImageID'] . '">';
-                ?>
-                <img class="m-auto d-block" src="img/travel/<?php
-                echo $img['PATH'];
-                ?>" alt="Third slide"><?php echo '</a>'; ?>
-            </div>
+            <c:forEach items="${requestScope.imgHot}" varStatus="s">
+                <div class="carousel-item <c:if test="${s.index==0}">active</c:if>">
+                    <a href="html/details.jsp?imgId=${requestScope.imgHot[s.index].img.imageId}">
+                        <img class="m-auto d-block" src="img/travel/${requestScope.imgHot[s.index].img.path}"
+                             alt="Second slide">
+                    </a>
+                </div>
+            </c:forEach>
         </div>
         <a class="carousel-control-prev" href="#homeCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -66,73 +47,25 @@
 </header>
 
 <!--hotImages begin-->
-<?php
-function echoHotDiv($random)
-{
-    if ($random) $result = getHotRandom(6);
-    else $result = getHot();
-
-    for ($i = 1; $i <= 3; $i++) {
-        echo '<div class="row  mx-0">';
-echo '
-<div class="col-12 col-xl-6 my-2">';
-    $row = $result->fetch();
-    echoHotImg($row);
-    echo '
-</div>
-';
-echo '
-<div class="col-12 col-xl-6 my-2">';
-    $row = $result->fetch();
-    echoHotImg($row);
-    echo '
-</div>
-';
-echo '</div>';
-}
-}
-
-function echoHotImg($img)
-{
-$imgPath = $img['PATH'];
-$imgTitle = $img['Title'];
-$imgDescription = $img['Description'];
-$imgId = $img['ImageID'];
-echo '
-<div class="homeHotImg bd-content">';
-    echo '<a href="details.jsp?imgId=' . $imgId . '"><img src="img/travel/' . $imgPath . '" alt="首页热门图1"></a>';
-    echo '
-    <div class="hotDiv container-ellipsis">';
-        echo '<a href="details.jsp" class="title">' . $imgTitle . '</a>';
-        echo '<a href="details.jsp" class="hotImgContent content content-ellipsis">';
-            echo $imgDescription;
-            echo '</a>';
-        echo '
+<c:forEach items="${requestScope.imgNew}" varStatus="s">
+    <c:if test="${s.index%2==0}"><div class="row mx-0"></c:if>
+    <div class="col-12 col-xl-6 my-2">
+        <div class="homeHotImg bd-content">
+            <a href="html/details.jsp?imgId=${requestScope.imgNew[s.index].img.imageId}"><img
+                    src="img/travel/${requestScope.imgNew[s.index].img.path}" alt="latestImg"></a>
+            <div class="hotDiv container-ellipsis">
+                <a href="html/details.jsp" class="title text-big">${requestScope.imgNew[s.index].img.title}</a>
+                <div class="text-sm">Author:<span class="info-img">${requestScope.imgNew[s.index].user.userName}</span></div>
+                <div class="text-sm">Content:<span class="info-img">${requestScope.imgNew[s.index].img.content}</span></div>
+                <div class="text-sm">Upload:<span class="info-img"><fmt:formatDate value="${requestScope.imgNew[s.index].img.time}" pattern="yyyy-MM-dd HH:mm:ss" /></span></div>
+                <a href="html/details.jsp" class="hotImgContent content content-ellipsis text-mid">
+                        ${requestScope.imgNew[s.index].img.description}
+                </a></div>
+        </div>
     </div>
-    ';
-    echo '
-</div>
-';
-}
-
-?>
-<div class="homeHot container-fluid" id="homeHot">
-    <?php
-    echoHotDiv($random);
-    ?>
-</div>
+    <c:if test="${s.index%2==1}"></div></c:if>
+</c:forEach>
 <!--hotImages end-->
-
-<!--buttons begin-->
-<div class="floatButton-home">
-    <a href="home.php?refresh=true">
-        <img id="refresh" src="img/icon/refresh.png" alt="refreshButton">
-    </a>
-    <a href="#navigation">
-        <img id="toTop" src="img/icon/toTop.png" alt="toTopButton">
-    </a>
-</div>
-<!--buttons end-->
 
 <%@include file="common/footer.jsp" %>
 <!--footer end-->

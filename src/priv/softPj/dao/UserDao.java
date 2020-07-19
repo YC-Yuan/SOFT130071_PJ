@@ -8,5 +8,7 @@ public interface UserDao {
 
     public boolean queryUserNameExist(String userName);
 
-    public void updateRegister(String userName,String email,String password);
+    public void updateRegister(String userName,String email,String password,long salt);
+
+    public User queryUserByUID(long UID);
 }

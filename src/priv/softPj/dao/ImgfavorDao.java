@@ -6,9 +6,13 @@ import java.util.List;
 
 public interface ImgfavorDao {
     //根据UID查询Favor的ImageID
-    public List<Imgfavor> queryFavorByUID(int UID);
+    public List<Imgfavor> queryFavorByUID(long UID);
 
-    public void doFavor(int UID,int ImageID);
+    public long queryFavorNum(long imgId);
 
-    public void unFavor(int UID,int ImageID);
+    public long queryIsFavored(long UID,long ImageId);
+
+    public void doFavor(long UID, long ImageID);
+
+    public void unFavor(long UID, long ImageID);
 }
