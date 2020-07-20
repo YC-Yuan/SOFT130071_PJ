@@ -1,5 +1,6 @@
 //img.file.title.content.country.city
-let img = document.getElementById('uploadedImg');
+let img = document.getElementById("uploadedImg");
+
 let file = document.getElementById("file");
 file.addEventListener("change", uploadImg, false);
 
@@ -9,80 +10,101 @@ let country = document.getElementById('country');
 let city = document.getElementById('city');
 
 let submit = document.getElementById('submit');
-submit.addEventListener("click", function (e) {
 
-    let checkCity = true;
+let hasCityName = false;
+let hasCountryName = false;
 
-    //img
-    let imgSrc = img.getAttribute('src');
-    if (imgSrc === '') file.setCustomValidity('Please upload a photo');
-    else file.setCustomValidity('');
+let infoCity = 'Please enter the city';
+let infoCountry = 'Please enter the country';
 
-    //content index不可为0
-    let index = content.selectedIndex;
-    if (index === 0) content.setCustomValidity('Please choose content');
-    else content.setCustomValidity('');
-
-    //country 不可为空 且需要数据库中有
-    let countryValue = country.value;
-    if (countryValue === '') country.setCustomValidity('Please enter country');
+country.addEventListener("input", function () {//检测国家名合法性
+    let countryName = country.value;
+    if (countryName === '') infoCountry = 'Please enter country';
     else {
-        country.setCustomValidity('');
         //检测数据库中是否存在
         let request = new XMLHttpRequest();
         request.onreadystatechange = function () {
             if (request.readyState === 4 && request.status === 200) {
-                if (request.responseText !== 'true') {
-                    e.preventDefault();
-                    checkCity = false;
-                    if (request.responseText === 'false') {
-                        alert('Unrecognizable country,try again');
-                        e.preventDefault();
+                console.log(request.responseText);
+                if (request.responseText === 'true') hasCountryName = true;
+                else {//国家名不合法
+                    hasCountryName = false;
+                    if (request.responseText === 'false') {//不合法，且模糊查询失败
+                        infoCountry = 'Unrecognizable country,try again';
                     } else {
                         let infos = request.responseText.split('|');
                         let info = 'You may want:';
                         for (let i = 0; i < infos.length; i++) {
-                            info += "\n" + infos[i];
+                            info += (i + 1) + ":" + infos[i];
+                            if (i + 1 !== infos.length) info += " |or| ";
                         }
-                        alert(info);
+                        infoCountry = info;
+                        console.log(info);
                     }
                 }
             }
         };
-        request.open("GET", "../php/uploadQuery.php?country=" + countryValue, false);
+        request.open("GET", "checkCountryName?countryName=" + countryName, true);
         request.send();
     }
+}, false);
 
-    //city 不可为空 且数据库中有
-    let cityValue = city.value;
-    if (cityValue === '') city.setCustomValidity('Please enter city');
+city.addEventListener("input", function () {//检测是城市名合法性
+    let countryName = country.value;
+    let cityName = city.value;
+    if (hasCountryName === false) return;
+    if (cityName === '') infoCity = 'Please enter city';
     else {
-        city.setCustomValidity('');
-        if (checkCity) {
-            //检测数据库中是否存在
-            let request = new XMLHttpRequest();
-            request.onreadystatechange = function () {
-                if (request.readyState === 4 && request.status === 200) {
-                    if (request.responseText !== 'true') {
-                        e.preventDefault();
-                        if (request.responseText === 'false') {
-                            alert('Unrecognizable city,try again');
-                        } else {
-                            let infos = request.responseText.split('|');
-                            let info = 'You may want:';
-                            for (let i = 0; i < infos.length; i++) {
-                                info += "\n" + infos[i];
-                            }
-                            alert(info);
+        //检测数据库中是否存在
+        let request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (request.readyState === 4 && request.status === 200) {
+                console.log(request.responseText);
+                if (request.responseText === 'true') hasCityName = true;
+                else {//城市名不合法
+                    hasCityName = false;
+                    if (request.responseText === 'false') {//不合法，且模糊查询失败
+                        infoCity = 'Unrecognizable city,try again';
+                    } else {
+                        let infos = request.responseText.split('|');
+                        let info = 'You may want:';
+                        for (let i = 0; i < infos.length; i++) {
+                            info += (i + 1) + ":" + infos[i];
+                            if ((i + 1) !== infos.length) info += " |or| ";
                         }
+                        infoCity = info;
+                        console.log(info);
                     }
                 }
-            };
-            console.log("../php/uploadQuery.php?city=" + cityValue);
-            request.open("GET", "../php/uploadQuery.php?country="+countryValue+"&city=" + cityValue, false);
-            request.send();
-        }
+            }
+        };
+        request.open("GET", "checkCityName?cityName=" + cityName + "&countryName=" + countryName, true);
+        request.send();
     }
+}, false);
+
+submit.addEventListener("click", function (e) {
+    //img必须要有
+    let imgSrc = img.getAttribute('src');
+    if (imgSrc === null) file.setCustomValidity('Please upload a photo');
+    else file.setCustomValidity('');
+
+    //Title要有
+    let titleName = title.value;
+    if (titleName === '') title.setCustomValidity('Please input the title');
+    else title.setCustomValidity('');
+
+    //content要有
+    let contentName = content.value;
+    if (contentName === '') content.setCustomValidity('Please input the content');
+    else content.setCustomValidity('');
+
+    //city和country合法
+    if (hasCountryName) country.setCustomValidity('');
+    else country.setCustomValidity(infoCountry);
+
+    if (hasCityName) city.setCustomValidity('');
+    else city.setCustomValidity(infoCity);
 }, false);
 
 function uploadImg(e) {

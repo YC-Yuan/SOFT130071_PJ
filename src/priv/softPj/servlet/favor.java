@@ -38,7 +38,6 @@ public class favor extends HttpServlet {
             writer.print("");
         }
 
-//        request.getRequestDispatcher("/html/favor.jsp").forward(request, response);
-        request.getRequestDispatcher("/html/iframe/favorPage.jsp").forward(request, response);
+        request.getRequestDispatcher("/html/favor.jsp").forward(request, response);
     }
 }

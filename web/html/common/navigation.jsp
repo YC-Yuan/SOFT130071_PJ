@@ -21,7 +21,7 @@
                 <li><a href="html/mine.jsp"><img src="img/icon/photo.png" alt="myphoto" class="icon">MyPhoto</a></li>
                 <li><a href="html/favor.jsp"><img src="img/icon/favored.png" alt="favor" class="icon">MyFavor</a></li>
                 <li><a href="html/friends.jsp"><img src="img/icon/friends.png" alt="friends" class="icon">Friends</a></li>
-                <li><a href="logout"><img src="img/icon/logout.png" alt="logout" class="icon"> Logout</a></li>
+                <li><a href="logout"><img src="img/icon/logout.png" alt="logout" class="icon">Logout</a></li>
             </ul>
         </div>
     </c:if>

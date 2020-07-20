@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Daddy-MyPhoto</title>
@@ -17,7 +17,10 @@
     if (request.getParameter("page") == null) request.setAttribute("page", (long) 1);
     else request.setAttribute("page", Long.parseLong(request.getParameter("page")));
 %>
-<% if (request.getAttribute("img") == null) request.getRequestDispatcher("/mine").forward(request, response);%>
+<%
+    if (request.getAttribute("img") == null) request.getRequestDispatcher("/mine").forward(request, response);
+    session.setAttribute("prePage", request.getRequestURL());
+%>
 <!--url process end-->
 
 <header>
@@ -89,7 +92,7 @@
             long pageNum = (long) request.getAttribute("pageNum");
             long pagePrevious = Math.max(1, pageCurrent - 1);
             long pageEnd = Math.min(pageCurrent + 4, pageNum);
-            long pageNext=Math.min(pageCurrent+1,pageEnd);
+            long pageNext = Math.min(pageCurrent + 1, pageEnd);
         %>
         <a href="html/mine.jsp?page=1">First</a>
         <a href="html/mine.jsp?page=<%=pagePrevious%>">Previous</a>

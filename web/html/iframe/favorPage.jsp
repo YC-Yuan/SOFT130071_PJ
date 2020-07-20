@@ -61,6 +61,21 @@
     <a href="html/favor.jsp?page=<%=pageNext%>">Next</a>
     <a href="html/favor.jsp?page=<%=pageNum%>">Last (<%=pageNum%> in all)</a>
 </div>
+<script>
+    function iframeSatisfy() {
+        let iframe = document.getElementById("iframePage");
+        let bHeight = iframe.contentWindow.document.body.scrollHeight;
+        let dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+        let height = Math.max(bHeight, dHeight);
+        iframe.height = height;
+    }
 
+    function tryFun(){
+        let iframe = document.getElementById("iframePage");
+        iframe.src='html/iframe/favorPage.jsp?page=2';
+
+
+    }
+</script>
 </body>
 </html>

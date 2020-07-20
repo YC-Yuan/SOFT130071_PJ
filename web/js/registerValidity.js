@@ -14,6 +14,7 @@ userName.addEventListener("input", function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let result = xhr.responseText;
             repetition = result==="exist";
+
             console.log(repetition);
         }
     }
@@ -72,9 +73,11 @@ submit.addEventListener("click", function () {
     if (!reg.test(text)) {
         userName.setCustomValidity('请输入4-15个字母、数字、_组成的用户名');
         return;
-    } else if (repetition) {
+    } else
+        if (repetition) {
         userName.setCustomValidity('用户名重复，请重新输入');
-    } else {
+    } else
+        {
         userName.setCustomValidity('');
     }
 
