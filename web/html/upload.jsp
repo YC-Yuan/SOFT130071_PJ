@@ -14,7 +14,8 @@
 
 <!--url process start-->
 <%
-    if (request.getParameter("imgId") != null) request.getRequestDispatcher("/modifyImg").forward(request, response);
+    if (request.getParameter("imgId") != null && request.getAttribute("imgFull") == null)
+        request.getRequestDispatcher("/getFullImg").forward(request, response);
     session.setAttribute("prePage", request.getRequestURL());
 %>
 <!--url process end-->
@@ -27,13 +28,12 @@
     <!--navigation end-->
 </header>
 
-
 <!--upload begin-->
-<form enctype="multipart/form-data" action="/getFullImg"
+<form enctype="multipart/form-data" action="uploadImg"
       class="container bd-form p-3 repository-color justify-content-center mt-3" method="post">
     <img class="w-100 mb-3"
          <c:if test="${!empty param.imgId}">src="img/travel/${requestScope.imgFull.img.path}"</c:if> alt="The Photo"
-         id="uploadedImg" style="display: none">
+         id="uploadedImg" <c:if test="${empty param.imgId}">style="display: none"</c:if>>
     <c:if test="${!empty param.imgId}">
         <input type="text" style="display: none" name="imgId" value="${param.imgId}">
     </c:if>
@@ -46,7 +46,7 @@
                 <input type="file" class="custom-file-input" id="file" name="file">
                 <label class="custom-file-label" for="file">
                     <c:if test="${!empty param.imgId}">Change the photo</c:if>
-                    <c:if test="${!empty param.imgId}">Choose a photo</c:if>
+                    <c:if test="${empty param.imgId}">Choose a photo</c:if>
                 </label>
             </div>
         </div>

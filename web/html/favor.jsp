@@ -19,7 +19,6 @@
 %>
 <%
     if (request.getAttribute("img") == null) request.getRequestDispatcher("/favor").forward(request, response);
-    session.setAttribute("prePage", request.getRequestURL());
 %>
 <!--url process end-->
 

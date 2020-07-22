@@ -12,7 +12,9 @@ let city = document.getElementById('city');
 let submit = document.getElementById('submit');
 
 let hasCityName = false;
+if(city.value!=='') hasCityName=true;
 let hasCountryName = false;
+if(country.value!=='') hasCountryName=true;
 
 let infoCity = 'Please enter the city';
 let infoCountry = 'Please enter the country';

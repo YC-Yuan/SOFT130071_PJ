@@ -19,7 +19,6 @@
 %>
 <%
     if (request.getAttribute("img") == null) request.getRequestDispatcher("/mine").forward(request, response);
-    session.setAttribute("prePage", request.getRequestURL());
 %>
 <!--url process end-->
 
@@ -48,8 +47,9 @@
                    class="content content-ellipsis my-1">${requestScope.img[s.index].description}</a>
                 <div class="btn-toolbar justify-content-end">
                     <div class="btn-group my-1" role="group" aria-label="Basic example">
-                        <form method="post" action="html/upload.jsp"><input type="hidden" name="imgId"
-                                                                            value="${requestScope.img[s.index].imageId}">
+                        <form method="post" action="html/upload.jsp?imgId=${requestScope.img[s.index].imageId}"><input
+                                type="hidden" name="imgId"
+                                value="${requestScope.img[s.index].imageId}">
                             <button type="submit" class="btn btn-secondary">Modify</button>
                         </form>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">

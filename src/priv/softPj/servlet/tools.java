@@ -1,10 +1,13 @@
 package priv.softPj.servlet;
 
+import com.sun.deploy.net.HttpRequest;
 import com.sun.deploy.net.HttpResponse;
+import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,5 +40,17 @@ public class tools {
 
     public  static long getRandomSalt(){
         return (long) (Math.random() * Math.pow(10, 10));
+    }
+
+    public static String getFileType(String name){
+        return name.substring(name.lastIndexOf('.'));
+    }
+
+    public static boolean deleteImgFile(String name){
+        File imgFile=new File("C:/Users/AAA/Desktop/Soft仓库/SOFT130071_PJ/web/img/travel/"+name);
+        if(imgFile.isFile()&&imgFile.exists()){
+            return imgFile.delete();
+        }
+        else return false;
     }
 }

@@ -3,6 +3,7 @@ package priv.softPj.dao.impl;
 import org.junit.Test;
 import priv.softPj.dao.ImgDao;
 import priv.softPj.pojo.Img;
+import priv.softPj.servlet.tools;
 
 import java.util.List;
 
@@ -26,20 +27,26 @@ public class ImgDaoImpl extends BaseDao implements ImgDao {
     }
 
     @Override
+    public Img queryImgByPath(String path) {
+        String sql = "select * from img where PATH = ?";
+        return queryForOne(Img.class, sql, path);
+    }
+
+    @Override
     public List<Img> queryImgFavoredByUID(long UID) {
-        String sql="SELECT img.*\n" +
+        String sql = "SELECT img.*\n" +
                 "FROM img,imgfavor\n" +
                 "WHERE imgfavor.UID=? AND imgfavor.ImageID=img.ImageID";
-        return queryForList(Img.class,sql,UID);
+        return queryForList(Img.class, sql, UID);
     }
 
     @Override
     public List<Img> queryImgFavoredByUidLimited(long UID, long start, long end) {
-        String sql="SELECT img.*\n"+
-                "FROM img,imgfavor\n"+
+        String sql = "SELECT img.*\n" +
+                "FROM img,imgfavor\n" +
                 "WHERE imgfavor.UID= ? AND imgfavor.ImageID=img.ImageID\n" +
                 "LIMIT ? , ?";
-        return queryForList(Img.class,sql,UID,start,end);
+        return queryForList(Img.class, sql, UID, start, end);
     }
 
     @Override
@@ -64,8 +71,58 @@ public class ImgDaoImpl extends BaseDao implements ImgDao {
     }
 
     @Override
+    public boolean queryIsPathExist(String path) {
+        String sql = "SELECT * FROM `img` WHERE PATH= ?";
+        Img img = queryForOne(Img.class, sql, path);
+        return img != null;
+    }
+
+    @Override
+    public void updateImg(long imgId, String title, String description, String cityName, String countryName, String content) {
+        String sql = "UPDATE img SET Title=?,Description=?,CityCode=?,CountryCode=?,Content=?,Time=now()\n" +
+                "WHERE ImageID=?";
+
+        CityDaoImpl cityDao = new CityDaoImpl();
+        CountryDaoImpl countryDao = new CountryDaoImpl();
+        long cityCode = cityDao.queryByName(cityName).getCityCode();
+        String countryCode = countryDao.queryByName(countryName).getCountryCode();
+
+        update(sql, title, description, cityCode, countryCode, content, imgId);
+    }
+
+    @Override
+    public void updateImgPath(long imgId, String path) {
+        String sql = "UPDATE img SET PATH=? WHERE ImageID=?";
+        update(sql, path, imgId);
+    }
+
+
+    @Override
+    public void insertImg(String title, String description, String cityName, String countryName, long uid, String path, String content) {
+        String sql = "insert into img(Title,Description,CityCode,CountryCode,UID,PATH,Content,Time)\n" +
+                "values(?,?,?,?,?,?,?,now())";
+
+        CityDaoImpl cityDao = new CityDaoImpl();
+        CountryDaoImpl countryDao = new CountryDaoImpl();
+        long cityCode = cityDao.queryByName(cityName).getCityCode();
+        String countryCode = countryDao.queryByName(countryName).getCountryCode();
+        update(sql, title, description, cityCode, countryCode, uid, path, content);
+    }
+
+    @Test
+    public void test() {
+        String cityName = "shanghai";
+        CityDaoImpl cityDao = new CityDaoImpl();
+        long cityCode = cityDao.queryByName(cityName).getCityCode();
+        System.out.println("cityCode:" + cityCode);
+    }
+
+    @Override
     public void deleteImg(long imgId) {
-        String sql="DELETE from img where ImageID=?";
-        update(sql,imgId);
+        Img img = queryImgById(imgId);
+        String path = img.getPath();
+        tools.deleteImgFile(path);
+        String sql = "DELETE from img where ImageID=?";
+        update(sql, imgId);
     }
 }

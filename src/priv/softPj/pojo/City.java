@@ -9,16 +9,6 @@ public class City {
   private long population;
   private String timeZone;
 
-
-  public long getCityId() {
-    return cityCode;
-  }
-
-  public void setCityId(long cityId) {
-    this.cityCode = cityCode;
-  }
-
-
   public String getCityName() {
     return cityName;
   }
@@ -54,4 +44,11 @@ public class City {
     this.timeZone = timeZone;
   }
 
+  public long getCityCode() {
+    return cityCode;
+  }
+
+  public void setCityCode(long cityCode) {
+    this.cityCode = cityCode;
+  }
 }
