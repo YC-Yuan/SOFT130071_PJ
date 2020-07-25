@@ -27,6 +27,38 @@ public class ImgDaoImpl extends BaseDao implements ImgDao {
     }
 
     @Override
+    public List<Img> queryImgByTitleOrderedByTime(String title) {
+        String sql="SELECT * FROM `img` WHERE Title LIKE concat('%',?,'%') ORDER BY Time DESC";
+        return queryForList(Img.class,sql,title);
+    }
+
+    @Override
+    public List<Img> queryImgByTitleOrderedByHeat(String title) {
+        String sql="SELECT *,COUNT(imgfavor.ImageID) as favorNum\n" +
+                "FROM img LEFT JOIN imgfavor ON imgfavor.ImageID=img.ImageID\n" +
+                "WHERE img.Title LIKE concat('%',?,'%')\n" +
+                "GROUP BY img.ImageID\n" +
+                "ORDER BY favorNum DESC";
+        return queryForList(Img.class,sql,title);
+    }
+
+    @Override
+    public List<Img> queryImgByContentOrderedByTime(String content) {
+        String sql="SELECT * FROM `img` WHERE Content LIKE concat('%',?,'%') ORDER BY Time DESC";
+        return queryForList(Img.class,sql,content);
+    }
+
+    @Override
+    public List<Img> queryImgByContentOrderedByHeat(String content) {
+        String sql="SELECT *,COUNT(imgfavor.ImageID) as favorNum\n" +
+                "FROM img LEFT JOIN imgfavor ON imgfavor.ImageID=img.ImageID\n" +
+                "WHERE img.Content LIKE concat('%',?,'%') \n" +
+                "GROUP BY img.ImageID\n" +
+                "ORDER BY favorNum DESC";
+        return queryForList(Img.class,sql,content);
+    }
+
+    @Override
     public Img queryImgByPath(String path) {
         String sql = "select * from img where PATH = ?";
         return queryForOne(Img.class, sql, path);
@@ -107,14 +139,6 @@ public class ImgDaoImpl extends BaseDao implements ImgDao {
         long cityCode = cityDao.queryByName(cityName).getCityCode();
         String countryCode = countryDao.queryByName(countryName).getCountryCode();
         update(sql, title, description, cityCode, countryCode, uid, path, content);
-    }
-
-    @Test
-    public void test() {
-        String cityName = "shanghai";
-        CityDaoImpl cityDao = new CityDaoImpl();
-        long cityCode = cityDao.queryByName(cityName).getCityCode();
-        System.out.println("cityCode:" + cityCode);
     }
 
     @Override

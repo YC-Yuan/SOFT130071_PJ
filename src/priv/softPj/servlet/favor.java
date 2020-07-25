@@ -30,13 +30,7 @@ public class favor extends HttpServlet {
 
         List<Img> imgAll = imgDao.queryImgFavoredByUID(uid);
         request.setAttribute("num", imgAll.size());
-        request.setAttribute("pageNum", imgAll.size() / pageCapacity + 1);
-
-        PrintWriter writer = response.getWriter();
-        for (Img image:img
-             ) {
-            writer.print("");
-        }
+        request.setAttribute("pageNum", Math.floorDiv(imgAll.size() , pageCapacity));
 
         request.getRequestDispatcher("/html/favor.jsp").forward(request, response);
     }

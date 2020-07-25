@@ -16,7 +16,7 @@ nav a, #userMenu span {
 }
 
 #navigation a{
-    padding-bottom: 12px;
+    padding-bottom: 8px;
     margin-left: 50px;
 }
 
@@ -43,6 +43,7 @@ nav a, #userMenu span {
 }
 
 #navigation {
+    padding-bottom: 0px;
     text-align: left;
     min-width: 40%;
     margin-right: 50px;

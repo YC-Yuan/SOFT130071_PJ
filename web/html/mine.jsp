@@ -91,12 +91,13 @@
             long pageCurrent = (long) request.getAttribute("page");
             long pageNum = (long) request.getAttribute("pageNum");
             long pagePrevious = Math.max(1, pageCurrent - 1);
-            long pageEnd = Math.min(pageCurrent + 4, pageNum);
+            long pageStart=Math.max(1,Math.min(pagePrevious,pageNum-4));
+            long pageEnd = Math.min(pageStart + 4, pageNum);
             long pageNext = Math.min(pageCurrent + 1, pageEnd);
         %>
         <a href="html/mine.jsp?page=1">First</a>
         <a href="html/mine.jsp?page=<%=pagePrevious%>">Previous</a>
-        <c:forEach varStatus="s" begin="<%=(int)pagePrevious%>" end="<%=(int)pageEnd%>">
+        <c:forEach varStatus="s" begin="<%=(int)pageStart%>" end="<%=(int)pageEnd%>">
             <c:if test="${s.index==page}"><strong>${page}</strong></c:if>
             <c:if test="${s.index!=page}"><a href="html/mine.jsp?page=${s.index}">${s.index}</a></c:if>
         </c:forEach>

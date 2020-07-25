@@ -1,3 +1,4 @@
+
 //img.file.title.content.country.city
 let img = document.getElementById("uploadedImg");
 
@@ -9,12 +10,15 @@ let content = document.getElementById('content');
 let country = document.getElementById('country');
 let city = document.getElementById('city');
 
+let checkValidity = document.getElementById('checkValidity');
+let modal = document.getElementById('modal');
 let submit = document.getElementById('submit');
+let form=document.getElementById('form');
 
 let hasCityName = false;
-if(city.value!=='') hasCityName=true;
+if (city.value !== '') hasCityName = true;
 let hasCountryName = false;
-if(country.value!=='') hasCountryName=true;
+if (country.value !== '') hasCountryName = true;
 
 let infoCity = 'Please enter the city';
 let infoCountry = 'Please enter the country';
@@ -85,7 +89,7 @@ city.addEventListener("input", function () {//检测是城市名合法性
     }
 }, false);
 
-submit.addEventListener("click", function (e) {
+checkValidity.addEventListener("click", function (e) {
     //img必须要有
     let imgSrc = img.getAttribute('src');
     if (imgSrc === null) file.setCustomValidity('Please upload a photo');
@@ -107,6 +111,16 @@ submit.addEventListener("click", function (e) {
 
     if (hasCityName) city.setCustomValidity('');
     else city.setCustomValidity(infoCity);
+
+    if(img==null||file.validationMessage===''
+        &&file.validationMessage===''
+        &&title.validationMessage===''
+        &&content.validationMessage===''
+        &&city.validationMessage===''
+        &&country.validationMessage===''){//通过的话，阻止上传，点开模态框
+        modal.click();
+        e.preventDefault();
+    }
 }, false);
 
 function uploadImg(e) {

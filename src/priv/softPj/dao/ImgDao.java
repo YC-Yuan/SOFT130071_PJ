@@ -11,6 +11,14 @@ public interface ImgDao {
 
     public List<Img> queryImgByUIDLimited(long UID, long start, long end);
 
+    public List<Img> queryImgByTitleOrderedByTime(String title);
+
+    public List<Img> queryImgByTitleOrderedByHeat(String title);
+
+    public List<Img> queryImgByContentOrderedByTime(String content);
+
+    public List<Img> queryImgByContentOrderedByHeat(String content);
+
     public Img queryImgByPath(String path);
 
     public List<Img> queryImgFavoredByUID(long UID);

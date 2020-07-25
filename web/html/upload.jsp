@@ -29,7 +29,7 @@
 </header>
 
 <!--upload begin-->
-<form enctype="multipart/form-data" action="uploadImg"
+<form enctype="multipart/form-data" action="uploadImg" id="form"
       class="container bd-form p-3 repository-color justify-content-center mt-3" method="post">
     <img class="w-100 mb-3"
          <c:if test="${!empty param.imgId}">src="img/travel/${requestScope.imgFull.img.path}"</c:if> alt="The Photo"
@@ -98,8 +98,30 @@
         </div>
     </div>
     <div class="row p-0 m-0 justify-content-center">
-        <button type="submit" class="btn btn-secondary mx-auto"
-                id="submit">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary mx-auto d-none" data-toggle="modal" data-target="#uploadModal" id="modal">
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Sure to upload?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-primary" id="submit">Upload</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-secondary mx-auto" id="checkValidity">
             <c:if test="${!empty param.imgId}">Modify</c:if>
             <c:if test="${empty param.imgId}">Upload</c:if>
         </button>

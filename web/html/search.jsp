@@ -7,63 +7,74 @@
 
     <!--静态引入page,base,css,jstl-->
     <%@include file="common/head.jsp" %>
-    <link rel="stylesheet" href="css/browser.css">
+    <link rel="stylesheet" href="css/searcher.css">
 
 </head>
 <body>
-
 <!--url process start-->
-<?php
-session_start();
-
-require_once('../php/browserQuery.php');
-require_once('../php/query.php');
-$pageNum = 0;
-if (isset($_GET['page'])) {
-    $page = $_GET['page'];
-} else {
-    $page = 1;
-}
-
-if (isset($_GET['keyword'])) {
-    $keyword = $_GET['keyword'];
-} else {
-    $keyword = '';
-}
-
-?>
+<%
+    if (request.getParameter("page") == null) request.setAttribute("page", (long) 1);
+    else request.setAttribute("page", Long.parseLong(request.getParameter("page")));
+    if (request.getParameter("searchMethod") != null && request.getAttribute("img") == null)
+        request.getRequestDispatcher("/searcher").forward(request, response);
+%>
 <!--url process end-->
-
 <header>
     <!--navigation begin-->
     <%@include file="common/navigation.jsp" %>
     <script>document.getElementById("navigation").children[2].className = "currentPage"</script><!--navigation end-->
 </header>
 
-<div class="container-fluid">
+<div class="container-fluid justify-content-start">
     <div class="row">
         <div class="col-3 p-3 m-0">
             <!--aside begin-->
+            <%--表单各项name：
+            searchText  searchMethod:byTitle byContent  orderMethod:byTme byHeat--%>
             <aside class="bd-form">
-                <form id="searcher">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input m-0" type="radio" name="key" id="byTitle" value="title" checked>
-                        <label class="form-check-label m-0 content text-mid" for="byTitle">
+                <form id="searcher" action="searcher" method="get">
+                    <input type="text" name="page" value="1" class="d-none"/>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Key word:</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Search text" name="searchText"
+                               <c:if test="${param.searchText!=null}">value="${param.searchText}"</c:if>>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="searchMethod" id="methodTitle"
+                               value="byTitle"
+                               <c:if test="${param.searchMethod!='byContent'}">checked</c:if>>
+                        <label class="form-check-label content" for="methodTitle">
                             Search by title
                         </label>
                     </div>
-                    <input type="text" class="form-control w-100 mx-0 my-2" id="searchTitle" placeholder="Title here"
-                           name="title">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input m-0" type="radio" name="key" id="byDescription"
-                               value="description">
-                        <label class="form-check-label m-0 content text-mid" for="byDescription">
-                            Search by description
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="searchMethod" id="methodContent"
+                               value="byContent"
+                               <c:if test="${param.searchMethod=='byContent'}">checked</c:if>>
+                        <label class="form-check-label content" for="methodContent">
+                            Search by content
                         </label>
                     </div>
-                    <textarea class="form-control w-100 mx-0 my-2" id="searchDescription" rows="12"
-                              placeholder="Description here" name="description"></textarea>
-                    <button type="submit" class="btn btn-outline-secondary m-0">Search</button>
+                    <hr/>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="orderMethod" id="methodTime"
+                               value="byTime"
+                               <c:if test="${param.orderMethod!='byHeat'}">checked</c:if>>
+                        <label class="form-check-label content" for="methodTime">
+                            Order by time
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="orderMethod" id="methodHeat"
+                               value="byHeat"
+                               <c:if test="${param.orderMethod=='byHeat'}">checked</c:if>>
+                        <label class="form-check-label content" for="methodHeat">
+                            Order by heat
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-outline-secondary mx-0 mt-3">Search</button>
                 </form>
             </aside>
             <!--aside end-->
@@ -71,127 +82,72 @@ if (isset($_GET['keyword'])) {
         <div class="col-9 p-3 m-0">
             <!--browser begin-->
             <div id="content">
-                <div id="searcherHot">
-                    <?php
-                    function echoTable()//在此完成检索
-                    {
-                        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-                            if (isset($_GET['key'])) {//有搜索条件
-                                if ($_GET['key'] == "title") {//按title搜索
-                                    if (isset($_GET['title'])) {
-                                        $result = getImgByTitle($_GET['title']);
-                                    }
-                                } elseif (isset($_GET['description'])) {
-                                    $result = getImgByDescription($_GET['description']);
-                                }
-                            }else{echo '<p class="info-img text-big text-center">Search photos by title or description.</p>';}
-
-                            if (isset($result)) {
-                                //后面为固定的输出和翻页逻辑
-                                $rowNum = $result->rowCount();
-
-                                global $pageNum;
-                                $pageNum = ceil($rowNum / 16.0);
-
-                                //翻页
-                                global $page;
-                                for ($i = 1; $i <= ($page - 1) * 16; $i++) $result->fetch();
-
-                                echo '<table>';
-                                for ($i = 0; $i < 4; $i++) {
-                                    echo '<tr>';
-                                    for ($j = 0; $j < 4; $j++) {
-                                        if ($row = $result->fetch()) echoTdImg($row);
-                                        else echo '<td></td>';
-                                    }
-                                    echo '</tr>';
-                                }
-                                // echo '<td><a href="details.php"><img class="tool" src="../../img/icon/3Fish1Tea.png" alt="布局用工具图"></a></td>';
-                                echo '</table>';
-                            }
-                        }
-                    }
-
-                    function echoTdImg($img)
-                    {
-                        $imgPath = $img['PATH'];
-                        $imgId = $img['ImageID'];
-                        echo '<td>';
-                        echo '<a href="details.php?imgId=' . $imgId . '"><img src="../../img/travel/' . $imgPath . '" alt="浏览图片" class="squareImg"></a>';
-                        echo '</td>';
-                    }
-
-                    echoTable();
-
-                    $pageCapacity = 5;
-                    if (!isset($pageNum)) $pageNum = 0;
-                    //根据当前页数和总页数判断
-                    if ($pageNum <= $pageCapacity) {
-                        $start = 1;
-                        $end = $pageNum;
-                    } elseif ($page <= $pageNum - $pageCapacity + 1) {
-                        $start = $page;
-                        $end = $page + $pageCapacity - 1;
-                    } else {
-                        $start = $pageNum - $pageCapacity + 1;
-                        $end = $pageNum;
-                    }
-
-                    function previousPage($page)
-                    {
-                        if ($page == 1) return 1;
-                        else return $page - 1;
-                    }
-
-                    function nextPage($page, $pageNum)
-                    {
-                        if ($page == $pageNum) return $pageNum;
-                        else return $page + 1;
-                    }
-
-                    echo '<div id="page">';
-                    echo '<a href="search.php?page=1">First</a>';
-                    echo '<a href="search.php?page=' . previousPage($page) . '">Previous</a>';
-                    for ($i = $start; $i < $end + 1; $i++) {
-                        if ($i == $page) echo '<strong>' . $page . '</strong>';
-                        else echo '<a href="search.php?page=' . $i . '">' . $i . '</a>';
-                    }
-                    echo '<a href="search.php?page=' . nextPage($page, $pageNum) . '">Next</a>';
-                    echo '<a href="search.php?page=' . $pageNum . '">Last (' . $pageNum . ' in all)</a>';
-                    echo '</div>';
-                    ?>
-                </div>
+                <c:if test="${requestScope.img==null}"><p class="info-img text-big text-center">
+                    Search photos by title or content!</p></c:if>
+                <c:if test="${requestScope.num==0}"><p class="info-img text-big text-center">
+                    No eligible photo!</p></c:if>
+                <table class="w-100">
+                    <%--输出9图，三行*3列--%>
+                    <c:forEach varStatus="s" begin="0" end="8">
+                        <c:if test="${s.index%3==0}">
+                            <tr>
+                        </c:if>
+                        <td>
+                            <c:if test="${requestScope.img[s.index]!=null}">
+                                <a href="html/details.jsp?imgId=${requestScope.img[s.index].imageId}">
+                                    <img src="img/travel/${requestScope.img[s.index].path}" class="squareImg"
+                                         alt="searchImg">
+                                </a>
+                            </c:if>
+                        </td>
+                        <c:if test="${s.index%3==2}">
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                    </td>
+                </table>
             </div>
+
+            <!--page start-->
+            <c:if test="${requestScope.img!=null&&requestScope.num!=0}">
+                <div id="page">
+                    <%
+                        long pageCurrent = (long) request.getAttribute("page");
+                        long pageNum = (long) request.getAttribute("pageNum");
+                        long pagePrevious = Math.max(1, pageCurrent - 1);
+                        long pageStart=Math.max(1,Math.min(pagePrevious,pageNum-4));
+                        long pageEnd = Math.min(pageStart + 4, pageNum);
+                        long pageNext = Math.min(pageCurrent + 1, pageEnd);
+                        String selfPath = "html/search.jsp?searchText=" + request.getParameter("searchText") +
+                                "&searchMethod=" + request.getParameter("searchMethod") +
+                                "&orderMethod=" + request.getParameter("orderMethod");
+                    %>
+                    <a href="<%=selfPath%>&page=1">First</a>
+                    <a href="<%=selfPath%>&page=<%=pagePrevious%>">Previous</a>
+                    <c:forEach varStatus="s" begin="<%=(int)pageStart%>" end="<%=(int)pageEnd%>">
+                        <c:if test="${s.index==page}"><strong>${page}</strong></c:if>
+                        <c:if test="${s.index!=page}"><a href="<%=selfPath%>&page=${s.index}">${s.index}</a></c:if>
+                    </c:forEach>
+                    <a href="<%=selfPath%>&page=<%=pageNext%>">Next</a>
+                    <a href="<%=selfPath%>&page=<%=pageNum%>">Last (<%=pageNum%> in all)</a>
+                </div>
+            </c:if>
+            <!--page end-->
 
             <!--browser end-->
         </div>
     </div>
 </div>
-
-<!--buttons begin-->
-<div class="floatButton">
-    <a href="#navigation">
-        <img id="toTop" src="../../img/icon/toTop.png" alt="toTopButton">
-    </a>
-</div>
-<!--buttons end-->
-
 <!--footer begin-->
-<footer>
-    <hr>
-    <p>沪私危备案74751号</p>
-    <p>版权&copy;2001-2020 3Fish1Tea三鱼一茶 版权所有</p>
-    <p>联系我们19302010020@fudan.edu.cn</p>
-</footer>
+<%@include file="common/footer.jsp" %>
 <!--footer end-->
 
 <!--bootstrap4-->
-<script src="../bootstrap4/jquery-3.5.1.min.js"></script>
-<script src="../bootstrap4/popper.min.js"></script>
-<script src="../bootstrap4/js/bootstrap.js"></script>
+<script src="bootstrap4/jquery-3.5.1.min.js"></script>
+<script src="bootstrap4/popper.min.js"></script>
+<script src="bootstrap4/js/bootstrap.js"></script>
 
 <!--js-->
-<script src="../js/imgSquare.js"></script>
-<script src="../js/linkedFilter.js"></script>
+<script src="js/imgSquare.js"></script>
 </body>
 </html>
