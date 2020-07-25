@@ -1,5 +1,6 @@
 package priv.softPj.servlet;
 
+import priv.softPj.dao.impl.HistoryDaoImpl;
 import priv.softPj.dao.impl.ImgDaoImpl;
 import priv.softPj.dao.impl.ImgfavorDaoImpl;
 import priv.softPj.pojo.Img;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.rmi.server.UID;
 
 @WebServlet("/details")
 public class details extends HttpServlet {
@@ -26,6 +28,10 @@ public class details extends HttpServlet {
             long uid = (long) request.getSession().getAttribute("UID");
             long isFavored = imgfavorDao.queryIsFavored(uid, imgId);
             request.setAttribute("isFavored", isFavored);
+
+            //记录足迹
+            HistoryDaoImpl historyDao = new HistoryDaoImpl();
+            historyDao.insertHistory(uid,imgId);
         }
 
         request.setAttribute("imgFull", imgFull);

@@ -13,7 +13,9 @@
 <body onresize="changeLine()" onload="changeLine()">
 
 <!--url process start-->
-<%session.setAttribute("prePage", request.getRequestURL().append("?imgId=").append(request.getParameter("imgId")));%>
+<%
+    session.setAttribute("prePage", request.getRequestURL().append("?imgId=").append(request.getParameter("imgId")));
+%>
 <% if (request.getAttribute("imgFull") == null)
     request.getRequestDispatcher("/details?imgId?" + request.getParameter("imgId")).forward(request, response);%>
 <!--url process end-->

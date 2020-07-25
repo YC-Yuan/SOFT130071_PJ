@@ -30,7 +30,7 @@ public class mine extends HttpServlet {
 
         List<Img> imgAll = imgDao.queryImgByUID(uid);
         request.setAttribute("num", imgAll.size());
-        request.setAttribute("pageNum", Math.floorDiv(imgAll.size(), pageCapacity));
+        request.setAttribute("pageNum", tools.ceilFloor(imgAll.size(),pageCapacity));
 
         request.getRequestDispatcher("/html/mine.jsp").forward(request, response);
     }

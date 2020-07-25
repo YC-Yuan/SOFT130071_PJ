@@ -34,7 +34,7 @@ public class ImgDaoImpl extends BaseDao implements ImgDao {
 
     @Override
     public List<Img> queryImgByTitleOrderedByHeat(String title) {
-        String sql="SELECT *,COUNT(imgfavor.ImageID) as favorNum\n" +
+        String sql="SELECT img.*,COUNT(imgfavor.ImageID) as favorNum\n" +
                 "FROM img LEFT JOIN imgfavor ON imgfavor.ImageID=img.ImageID\n" +
                 "WHERE img.Title LIKE concat('%',?,'%')\n" +
                 "GROUP BY img.ImageID\n" +
@@ -50,7 +50,7 @@ public class ImgDaoImpl extends BaseDao implements ImgDao {
 
     @Override
     public List<Img> queryImgByContentOrderedByHeat(String content) {
-        String sql="SELECT *,COUNT(imgfavor.ImageID) as favorNum\n" +
+        String sql="SELECT img.*,COUNT(imgfavor.ImageID) as favorNum\n" +
                 "FROM img LEFT JOIN imgfavor ON imgfavor.ImageID=img.ImageID\n" +
                 "WHERE img.Content LIKE concat('%',?,'%') \n" +
                 "GROUP BY img.ImageID\n" +

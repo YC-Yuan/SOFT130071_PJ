@@ -62,7 +62,7 @@
             long pageCurrent = (long) request.getAttribute("page");
             long pageNum = (long) request.getAttribute("pageNum");
             long pagePrevious = Math.max(1, pageCurrent - 1);
-            long pageStart=Math.max(1,Math.min(pagePrevious,pageNum-4));
+            long pageStart = Math.max(1, Math.min(pagePrevious, pageNum - 4));
             long pageEnd = Math.min(pageStart + 4, pageNum);
             long pageNext = Math.min(pageCurrent + 1, pageEnd);
         %>
@@ -75,6 +75,21 @@
         <a href="html/favor.jsp?page=<%=pageNext%>">Next</a>
         <a href="html/favor.jsp?page=<%=pageNum%>">Last (<%=pageNum%> in all)</a>
     </div>
+    <hr>
+    <div class="container-fluid">
+        <div class="row justify-content-center"><p class="title text-center">Browse History</p></div>
+        <c:forEach varStatus="s" begin="0" end="9">
+            <c:if test="${s.index%2==0}"><div class="row"></c:if>
+            <c:if test="${requestScope.history[s.index]!=null}">
+                <div class="col-6">
+                    <span class="info-img text-big">Img${s.index}: </span>
+                    <a href="html/details.jsp?imgId=${requestScope.history[s.index].img.imageId}"
+                       class="content text-center">${requestScope.history[s.index].img.title}</a>
+                </div>
+            </c:if>
+            <c:if test="${s.index%2==1}"></div></c:if>
+        </c:forEach>
+    </div>
 </div>
 
 <!--repository end-->
@@ -85,9 +100,9 @@
 </body>
 
 <!--bootstrap4-->
-<script src="js/bootstrap4/jquery-3.5.1.min.js"></script>
-<script src="js/bootstrap4/popper.min.js"></script>
-<script src="js/bootstrap4/js/bootstrap.js"></script>
+<script src="bootstrap4/jquery-3.5.1.min.js"></script>
+<script src="bootstrap4/popper.min.js"></script>
+<script src="bootstrap4/js/bootstrap.js"></script>
 
 <!--js-->
 <script src="js/textEllipsis.js"></script>

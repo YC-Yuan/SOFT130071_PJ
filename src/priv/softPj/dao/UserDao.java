@@ -3,6 +3,8 @@ package priv.softPj.dao;
 import org.junit.Test;
 import priv.softPj.pojo.User;
 
+import java.util.List;
+
 public interface UserDao {
     public User queryLogin(String userName,String password);
 
@@ -11,4 +13,8 @@ public interface UserDao {
     public void updateRegister(String userName,String email,String password,long salt);
 
     public User queryUserByUID(long UID);
+
+    public List<User> queryUserByName(String userName);
+
+    public List<User> queryFriendByUID(long UID);
 }

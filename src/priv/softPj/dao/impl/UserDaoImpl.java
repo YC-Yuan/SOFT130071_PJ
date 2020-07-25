@@ -1,12 +1,12 @@
 package priv.softPj.dao.impl;
 
-import org.junit.Test;
 import priv.softPj.dao.UserDao;
 import priv.softPj.pojo.User;
 import priv.softPj.servlet.tools;
 
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public class UserDaoImpl extends BaseDao implements UserDao {
     @Override
@@ -15,7 +15,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
         String sql = "select `Salt` from User where UserName = ?";
         User user = queryForOne(User.class, sql, userName);
         if (user == null) return null;
-        long salt = user.getSalt();
+        long salt = Long.parseLong(user.getSalt());
         String pass = "";
         try {
             pass = tools.getSha1((password + salt).getBytes(StandardCharsets.UTF_8));
@@ -44,5 +44,23 @@ public class UserDaoImpl extends BaseDao implements UserDao {
     public User queryUserByUID(long UID) {
         String sql = "select * from user where UID = ?";
         return queryForOne(User.class, sql, UID);
+    }
+
+    @Override
+    public List<User> queryUserByName(String userName) {
+        String sql="select * from user where UserName like concat('%',?,'%')";
+        return queryForList(User.class,sql,userName);
+    }
+
+    @Override
+    public List<User> queryFriendByUID(long UID) {
+        String sql="SELECT user.*\n" +
+                "FROM friend,user\n" +
+                "WHERE friend.UID2=? AND UID1 =user.UID\n" +
+                "UNION ALL\n" +
+                "SELECT user.*\n" +
+                "FROM friend,user\n" +
+                "WHERE friend.UID1=? AND UID2 =user.UID";
+        return queryForList(User.class,sql,UID,UID);
     }
 }

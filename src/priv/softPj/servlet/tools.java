@@ -53,4 +53,8 @@ public class tools {
         }
         else return false;
     }
+
+    public static long ceilFloor(long a,long b){
+        return (long) Math.ceil((double)a/b);
+    }
 }

@@ -5,7 +5,7 @@ public class History {
 
   private long historyId;
   private long uid;
-  private long imgId;
+  private long imageId;
 
 
   public long getHistoryId() {
@@ -26,12 +26,12 @@ public class History {
   }
 
 
-  public long getImgId() {
-    return imgId;
+  public long getImageId() {
+    return imageId;
   }
 
-  public void setImgId(long imgId) {
-    this.imgId = imgId;
+  public void setImageId(long imageId) {
+    this.imageId = imageId;
   }
 
 }

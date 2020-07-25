@@ -13,6 +13,7 @@ public class Img {
   private String content;
   private java.sql.Timestamp time;
 
+
   public long getImageId() {
     return imageId;
   }
@@ -92,4 +93,5 @@ public class Img {
   public void setTime(java.sql.Timestamp time) {
     this.time = time;
   }
+
 }

@@ -7,10 +7,10 @@ public class User {
   private String email;
   private String userName;
   private String password;
-  private long salt;
   private long showFavor;
   private java.sql.Timestamp dateJoined;
   private java.sql.Timestamp dateLastModified;
+  private String salt;
 
 
   public long getUid() {
@@ -75,11 +75,13 @@ public class User {
     this.dateLastModified = dateLastModified;
   }
 
-  public long getSalt() {
+
+  public String getSalt() {
     return salt;
   }
 
-  public void setSalt(long salt) {
+  public void setSalt(String salt) {
     this.salt = salt;
   }
+
 }

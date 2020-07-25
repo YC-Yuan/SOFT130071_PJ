@@ -1,5 +1,6 @@
 package priv.softPj.servlet;
 
+import org.junit.Test;
 import priv.softPj.dao.impl.ImgDaoImpl;
 import priv.softPj.pojo.Img;
 
@@ -52,11 +53,12 @@ public class searcher extends HttpServlet {
         System.out.println("img size:" + img.size());
         System.out.println("imgAll size:" + imgAll.size());
         System.out.println("num:"+imgAll.size());
-        System.out.println("pageNum:"+Math.floorDiv(imgAll.size(), pageCapacity));
+        System.out.println("pageNum:"+tools.ceilFloor(imgAll.size(),pageCapacity));
 
         request.setAttribute("num", imgAll.size());
-        request.setAttribute("pageNum", Math.floorDiv(imgAll.size(), pageCapacity));
+        request.setAttribute("pageNum", tools.ceilFloor(imgAll.size(),pageCapacity));
 
         request.getRequestDispatcher("/html/search.jsp").forward(request, response);
     }
+
 }

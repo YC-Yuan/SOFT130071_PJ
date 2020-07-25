@@ -2,6 +2,8 @@ package priv.softPj.servlet;
 
 import priv.softPj.dao.impl.ImgDaoImpl;
 import priv.softPj.pojo.Img;
+import priv.softPj.pojo.combination.ImgHistory;
+import priv.softPj.service.impl.ImgHistoryImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,7 +32,12 @@ public class favor extends HttpServlet {
 
         List<Img> imgAll = imgDao.queryImgFavoredByUID(uid);
         request.setAttribute("num", imgAll.size());
-        request.setAttribute("pageNum", Math.floorDiv(imgAll.size() , pageCapacity));
+        request.setAttribute("pageNum", tools.ceilFloor(imgAll.size(),pageCapacity));
+
+        //根据UID获取足迹
+        ImgHistoryImpl imgHistory = new ImgHistoryImpl();
+        List<ImgHistory> imgHistoryList = imgHistory.queryHistory(uid);
+        request.setAttribute("history",imgHistoryList);
 
         request.getRequestDispatcher("/html/favor.jsp").forward(request, response);
     }
