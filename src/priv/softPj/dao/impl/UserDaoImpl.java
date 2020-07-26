@@ -1,5 +1,6 @@
 package priv.softPj.dao.impl;
 
+import org.junit.Test;
 import priv.softPj.dao.UserDao;
 import priv.softPj.pojo.User;
 import priv.softPj.servlet.tools;

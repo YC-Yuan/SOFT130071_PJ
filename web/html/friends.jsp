@@ -25,21 +25,33 @@
 </header>
 <div class="container-fluid">
     <div class="row">
-<%--搜索好友--%>
+        <%--搜索好友--%>
         <div class="col-3 p-3">
             <aside class="p-3 bd-form">
-                <p class="title text-center">Search by username!</p>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">User Name:</span>
+                <form id="searcher" action="friends" method="get">
+                    <p class="title text-center">Search by username!</p>
+                    <div class="input-group my-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">User Name:</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Search text" name="searchText"
+                               <c:if test="${param.searchText!=null}">value="${param.searchText}"</c:if>>
                     </div>
-                    <input type="text" class="form-control" aria-label="Search text" name="searchText"
-                           <c:if test="${param.searchText!=null}">value="${param.searchText}"</c:if>>
+                    <button type="submit" class="btn btn-outline-secondary mx-0">Search</button>
+                </form>
+                <div class="bd-content mt-3 p-2">
+                    <c:if test="${requestScope.users==null}"><span class="text-info text-mid">Try to find your friends!</span></c:if>
+                    <c:forEach items="${requestScope.users}" varStatus="s">
+                    <div class="justify-content-between">
+                        <span class="text-mid">${requestScope.users[s.index].userName}</span>
+                        <button type="button" class="btn btn-info ml-auto">Add</button>
+                    </div>
+                    </c:forEach>
                 </div>
             </aside>
         </div>
 
-<%--好友列表--%>
+        <%--好友列表--%>
         <div class="col-9 p-3">
 
         </div>

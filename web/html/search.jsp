@@ -89,8 +89,6 @@
                 <table class="w-100">
                     <%--输出9图，三行*3列--%>
                     <c:forEach varStatus="s" begin="0" end="8">
-                        ${requestScope.img[s.index].imageId}
-                        ${requestScope.img[s.index].title}
                         <c:if test="${s.index%3==0}">
                             <tr>
                         </c:if>

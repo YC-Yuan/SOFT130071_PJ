@@ -76,7 +76,7 @@
         <a href="html/favor.jsp?page=<%=pageNum%>">Last (<%=pageNum%> in all)</a>
     </div>
     <hr>
-    <div class="container-fluid">
+    <div class="container-fluid mb-3">
         <div class="row justify-content-center"><p class="title text-center">Browse History</p></div>
         <c:forEach varStatus="s" begin="0" end="9">
             <c:if test="${s.index%2==0}"><div class="row"></c:if>
