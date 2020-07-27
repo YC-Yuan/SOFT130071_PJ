@@ -1,8 +1,9 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.pages;
 
 import org.junit.Test;
 import priv.softPj.dao.impl.ImgDaoImpl;
 import priv.softPj.pojo.Img;
+import priv.softPj.servlet.tools;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,7 +54,7 @@ public class searcher extends HttpServlet {
         System.out.println("img size:" + img.size());
         System.out.println("imgAll size:" + imgAll.size());
         System.out.println("num:"+imgAll.size());
-        System.out.println("pageNum:"+tools.ceilFloor(imgAll.size(),pageCapacity));
+        System.out.println("pageNum:"+ tools.ceilFloor(imgAll.size(),pageCapacity));
 
         request.setAttribute("num", imgAll.size());
         request.setAttribute("pageNum", tools.ceilFloor(imgAll.size(),pageCapacity));

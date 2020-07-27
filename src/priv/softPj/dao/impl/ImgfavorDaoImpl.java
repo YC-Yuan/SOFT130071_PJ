@@ -1,6 +1,5 @@
 package priv.softPj.dao.impl;
 
-import org.junit.Test;
 import priv.softPj.dao.ImgfavorDao;
 import priv.softPj.pojo.Imgfavor;
 
@@ -40,5 +39,11 @@ public class ImgfavorDaoImpl extends BaseDao implements ImgfavorDao {
     public void unFavor(long UID, long ImageID) {
         String sql="delete from imgfavor where UID=? and ImageID=?";
         update(sql,UID,ImageID);
+    }
+
+    @Override
+    public void deleteByImgID(long imgId) {
+        String sql="delete from imgfavor where ImageID=?";
+        update(sql,imgId);
     }
 }

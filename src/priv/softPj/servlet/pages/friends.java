@@ -1,9 +1,11 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.pages;
 
 import priv.softPj.dao.impl.FriendRequestDaoImpl;
 import priv.softPj.dao.impl.UserDaoImpl;
 import priv.softPj.pojo.Friendrequest;
 import priv.softPj.pojo.User;
+import priv.softPj.pojo.combination.FriendRequestFull;
+import priv.softPj.service.impl.FRFullImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,12 +22,13 @@ public class friends extends HttpServlet {
         long uid = (long) request.getSession().getAttribute("UID");
 
         UserDaoImpl userDao = new UserDaoImpl();
-        FriendRequestDaoImpl friendRequestDao = new FriendRequestDaoImpl();
+        FRFullImpl frFull = new FRFullImpl();
 
         if (userName != null) {
             //根据用户名搜索
             List<User> users = userDao.queryUserByName(userName);
             request.setAttribute("users", users);
+            System.out.println("users = " + users);
         }
 
         //根据用户搜索好友
@@ -34,11 +37,20 @@ public class friends extends HttpServlet {
         request.setAttribute("friends", friends);
 
         //根据用户搜请求对应的好友（包括送出和接收）
-        List<Friendrequest> requestReceive = friendRequestDao.queryReceiveByUID(uid);
-        List<Friendrequest> requestSend = friendRequestDao.querySendByUID(uid);
+        List<FriendRequestFull> requestReceive = frFull.queryReceiveByUID(uid);
+        List<FriendRequestFull> requestSend = frFull.querySentByUID(uid);
+
 
         request.setAttribute("requestReceive", requestReceive);
         request.setAttribute("requestSend", requestSend);
+
+        System.out.println("friends = " + friends);
+        System.out.println("requestReceive = " + requestReceive);
+        System.out.println("requestSend = " + requestSend);
+
+        System.out.println(requestReceive.get(0).getUser().getUserName());
+        System.out.println(requestReceive.get(0).getUser().getEmail());
+        System.out.println(requestReceive.get(0).getUser().getDateJoined());
 
         request.getRequestDispatcher("html/friends.jsp").forward(request, response);
     }

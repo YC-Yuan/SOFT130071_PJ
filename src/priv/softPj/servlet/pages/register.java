@@ -1,9 +1,11 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.pages;
 
 import org.junit.Test;
 import priv.softPj.dao.UserDao;
 import priv.softPj.dao.impl.UserDaoImpl;
 import priv.softPj.pojo.User;
+import priv.softPj.servlet.tools;
+import sun.security.provider.MD5;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,5 +49,22 @@ public class register extends HttpServlet {
         session.setAttribute("UID", UID);
 
         tools.back(session, response);
+    }
+
+    //清洗加密密码
+    @Test
+    public void test() throws NoSuchAlgorithmException {
+
+        long uid = 0;
+        String password = "";
+
+        UserDaoImpl userDao = new UserDaoImpl();
+        User user = userDao.queryUserByUID(uid);
+        String salt = user.getSalt();
+        String sha1 = tools.getSha1(password.getBytes(StandardCharsets.UTF_8));
+        String sha11 = tools.getSha1((sha1 + salt).getBytes(StandardCharsets.UTF_8));
+
+        String sql = "update user set Password = ? WHERE UID = ?";
+        userDao.update(sql, sha11, uid);
     }
 }

@@ -1,7 +1,8 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.pages;
 
 import priv.softPj.dao.impl.UserDaoImpl;
 import priv.softPj.pojo.User;
+import priv.softPj.servlet.tools;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +19,7 @@ public class login extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/html;charset=utf-8");
 
-        String userName = request.getParameter("userName");
+        String userName = request.getParameter("userName");//用户名或密码
         String password = request.getParameter("password");
 
         UserDaoImpl impl = new UserDaoImpl();

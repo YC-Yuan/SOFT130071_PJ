@@ -1,4 +1,4 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.function;
 
 import priv.softPj.dao.ImgfavorDao;
 import priv.softPj.dao.impl.ImgfavorDaoImpl;

@@ -1,4 +1,4 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.pages;
 
 import priv.softPj.dao.impl.ImgDaoImpl;
 import priv.softPj.pojo.Img;

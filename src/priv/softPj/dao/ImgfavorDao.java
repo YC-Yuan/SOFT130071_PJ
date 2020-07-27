@@ -15,4 +15,6 @@ public interface ImgfavorDao {
     public void doFavor(long UID, long ImageID);
 
     public void unFavor(long UID, long ImageID);
+
+    public void deleteByImgID(long imgId);
 }

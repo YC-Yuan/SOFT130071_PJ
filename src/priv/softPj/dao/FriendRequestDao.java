@@ -1,4 +1,4 @@
-package priv.softPj.dao.impl;
+package priv.softPj.dao;
 
 import priv.softPj.pojo.Friendrequest;
 
@@ -8,4 +8,10 @@ public interface FriendRequestDao {
     public List<Friendrequest> queryReceiveByUID(long uid);
 
     public List<Friendrequest> querySendByUID(long uid);
+
+    public void sendRequest(long sendUID, long receiveUID);
+
+    public void acceptRequest(long sendUID, long receiveUID);
+
+    public void deleteRequest(long sendUID, long receiveUID);
 }

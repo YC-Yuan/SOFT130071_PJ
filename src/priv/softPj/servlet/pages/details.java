@@ -1,4 +1,4 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.pages;
 
 import priv.softPj.dao.impl.HistoryDaoImpl;
 import priv.softPj.dao.impl.ImgDaoImpl;

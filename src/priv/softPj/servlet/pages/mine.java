@@ -1,9 +1,10 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.pages;
 
 import priv.softPj.dao.impl.ImgDaoImpl;
 import priv.softPj.pojo.Img;
 import priv.softPj.pojo.combination.ImgFull;
 import priv.softPj.service.impl.ImgFullImpl;
+import priv.softPj.servlet.tools;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -56,9 +56,11 @@
 <script src="bootstrap4/jquery-3.5.1.min.js"></script>
 <script src="bootstrap4/popper.min.js"></script>
 <script src="bootstrap4/js/bootstrap.js"></script>
+<script src="js/sha1.js"></script>
 
 <!--js-->
 <script src="js/registerValidity.js"></script>
+<script src="js/passwordEncrypt.js"></script>
 
 </body>
 </html>

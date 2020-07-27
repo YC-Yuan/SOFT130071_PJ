@@ -20,19 +20,17 @@
 
 <!--loginForm begin-->
 <c:if test="${param.userName!=null}">
-    <script>alert("用户名或密码错误!");</script>
+    <script>alert("Wrong username or password!");</script>
 </c:if>
-<form class="bd-form" action="login" method="post" role="form">
+<form class="bd-form" action="login" method="post" role="form" id="form">
     <div class="form-group">
-        <label for="userName" class="info text-mid">UserName</label>
+        <label for="userName" class="info text-mid">UserName/Email</label>
         <input type="text" class="form-control" id="userName" name="userName" placeholder="your UserName here" required
         value="${param.userName}">
     </div>
-    </div>
     <div class="form-group">
         <label for="password" class="info text-mid">Password</label>
-        <input type="text" class="form-control" id="password" name="password" placeholder="your password here" required
-               value="${param.password}">
+        <input type="password" class="form-control" id="password" name="password" placeholder="your password here" required>
     </div>
     <button type="submit" id="submit" class="btn btn-light"><span class="info text-mid">Login</span></button>
     <hr>
@@ -50,7 +48,10 @@
 <script src="bootstrap4/jquery-3.5.1.min.js"></script>
 <script src="bootstrap4/popper.min.js"></script>
 <script src="bootstrap4/js/bootstrap.js"></script>
+<script src="js/sha1.js"></script>
 
 <!--js-->
+<script src="js/passwordEncrypt.js"></script>
+
 </body>
 </html>

@@ -1,4 +1,4 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.check;
 
 import priv.softPj.dao.impl.CountryDaoImpl;
 import priv.softPj.pojo.Country;

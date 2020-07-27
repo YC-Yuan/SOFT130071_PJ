@@ -1,4 +1,6 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.pages;
+
+import priv.softPj.servlet.tools;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

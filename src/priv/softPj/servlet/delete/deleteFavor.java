@@ -1,7 +1,8 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.delete;
 
 import priv.softPj.dao.impl.ImgDaoImpl;
 import priv.softPj.dao.impl.ImgfavorDaoImpl;
+import priv.softPj.servlet.tools;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

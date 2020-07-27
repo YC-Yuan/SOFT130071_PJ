@@ -1,6 +1,8 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.delete;
 
+import priv.softPj.dao.ImgfavorDao;
 import priv.softPj.dao.impl.ImgDaoImpl;
+import priv.softPj.dao.impl.ImgfavorDaoImpl;
 import priv.softPj.pojo.Img;
 
 import javax.servlet.ServletException;
@@ -18,15 +20,17 @@ public class deleteImg extends HttpServlet {
         long deleteId = Long.parseLong(request.getParameter("deleteId"));
 
         ImgDaoImpl imgDao = new ImgDaoImpl();
+        ImgfavorDaoImpl imgfavorDao = new ImgfavorDaoImpl();
 
-        Img img=imgDao.queryImgById(deleteId);
+        Img img = imgDao.queryImgById(deleteId);
 
         imgDao.deleteImg(deleteId);
+        imgfavorDao.deleteByImgID(deleteId);
 
         //File imgFile=new File("C:/Users/AAA/Desktop/Soft仓库/SOFT130071_PJ/web/img/travel/"+img.getPath());
-        File imgFile=new File(request.getServletContext().getRealPath("/img/travel/")+img.getPath());
-        if(imgFile.isFile()&&imgFile.exists()){
-            System.out.println("Img delete:"+imgFile.delete());
+        File imgFile = new File(request.getServletContext().getRealPath("/img/travel/") + img.getPath());
+        if (imgFile.isFile() && imgFile.exists()) {
+            System.out.println("Img delete:" + imgFile.delete());
         }
 
         response.sendRedirect("html/mine.jsp");
