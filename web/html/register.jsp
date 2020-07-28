@@ -20,10 +20,10 @@
 <h3 class="title text-sm">Share photos you love!</h3>
 
 <!--registerForm begin-->
-<form class="bd-form" method="post">
+<form class="bd-form" action="register" method="post" id="form">
     <div class="form-group">
         <label for="userName" class="info text-mid">UserName</label>
-        <input type="text" class="form-control" id="userName" name="name" placeholder="your userName here" required>
+        <input type="text" class="form-control" id="userName" name="userName" placeholder="your userName here" required>
     </div>
     <div class="form-group">
         <label for="e-mail" class="info text-mid">E-mail</label>
@@ -33,7 +33,7 @@
     </div>
     <div class="form-group">
         <label for="password" class="info text-mid">Password</label>
-        <input type="password" class="form-control" id="password" name="pass" placeholder="your password here" required>
+        <input type="password" class="form-control" id="password" name="password" placeholder="your password here" required>
     </div>
     <div class="progress my-2">
         <div id="passwordStrength" class="progress-bar bg-success" role="progressbar" style="width: 0"></div>

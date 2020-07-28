@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Daddy-Favor</title>
+    <title>Daddy-FriendFavor</title>
 
     <!--静态引入page,base,css,jstl-->
     <%@include file="common/head.jsp" %>
@@ -18,7 +18,7 @@
     else request.setAttribute("page", Long.parseLong(request.getParameter("page")));
 %>
 <%
-    if (request.getAttribute("img") == null) request.getRequestDispatcher("/favor").forward(request, response);
+    if (request.getAttribute("img") == null) request.getRequestDispatcher("/friendFavor").forward(request, response);
 %>
 <!--url process end-->
 
@@ -30,24 +30,8 @@
     <!--navigation end-->
 </header>
 <!--repository begin-->
-<div id="repository" class="container-fluid bd-form mx-auto my-3 p-0 repository-color justify-content-center">
-    <h1 class="title text-big text-center">My Favor</h1>
-    <div class="row justify-content-center my-2">
-        <div class="btn-group" role="group">
-            <c:if test="${requestScope.user.showFavor==1}">
-                <button type="button" class="btn btn-info btn-sm disabled">Public</button>
-                <a href="privateButton">
-                    <button type="button" class="btn btn-outline-info btn-sm">Private</button>
-                </a>
-            </c:if>
-            <c:if test="${requestScope.user.showFavor!=1}">
-                <a href="publicButton">
-                    <button type="button" class="btn btn-outline-info btn-sm">Public</button>
-                </a>
-                <button type="button" class="btn btn-info btn-sm disabled">Private</button>
-            </c:if>
-        </div>
-    </div>
+<div id="repository" class="containe bd-form mx-auto my-3 p-0 repository-color justify-content-center">
+    <h1 class="title text-big text-center">${requestScope.friend.userName}'s Favor</h1>
     <c:if test="${requestScope.num==0}">
         <div class="repository-box p-2 "><p class="text-big info-img text-center">Try to favor photo you like!<br/>You
             can favor any photo in details page(click the photo)~</p></div>
@@ -61,15 +45,6 @@
                    class="title my-1">${requestScope.img[s.index].title}</a>
                 <a href="html/details.jsp?imgId=${requestScope.img[s.index].imageId}"
                    class="content content-ellipsis my-1">${requestScope.img[s.index].description==null?"The author said nothiing":requestScope.img[s.index].description}</a>
-                <div class="btn-toolbar justify-content-end">
-                    <div class="btn-group my-1" role="group" aria-label="Basic example">
-                        <a href="deleteFavor?UID=${sessionScope.UID}&deleteId=${requestScope.img[s.index].imageId}">
-                            <button type="button" class="btn btn-danger">
-                                Delete
-                            </button>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </c:forEach>
@@ -81,15 +56,17 @@
             long pageStart = Math.max(1, Math.min(pagePrevious, pageNum - 4));
             long pageEnd = Math.min(pageStart + 4, pageNum);
             long pageNext = Math.min(pageCurrent + 1, pageEnd);
+
+            String path="html/friendFavor.jsp?friendUID="+request.getParameter("friendUID");
         %>
-        <a href="html/favor.jsp?page=1">First</a>
-        <a href="html/favor.jsp?page=<%=pagePrevious%>">Previous</a>
+        <a href="<%=path%>&page=1">First</a>
+        <a href="<%=path%>&page=<%=pagePrevious%>">Previous</a>
         <c:forEach varStatus="s" begin="<%=(int)pageStart%>" end="<%=(int)pageEnd%>">
             <c:if test="${s.index==page}"><strong>${page}</strong></c:if>
-            <c:if test="${s.index!=page}"><a href="html/favor.jsp?page=${s.index}">${s.index}</a></c:if>
+            <c:if test="${s.index!=page}"><a href="<%=path%>&page=${s.index}">${s.index}</a></c:if>
         </c:forEach>
-        <a href="html/favor.jsp?page=<%=pageNext%>">Next</a>
-        <a href="html/favor.jsp?page=<%=pageNum%>">Last (<%=pageNum%> in all)</a>
+        <a href="<%=path%>&page=<%=pageNext%>">Next</a>
+        <a href="<%=path%>&page=<%=pageNum%>">Last (<%=pageNum%> in all)</a>
     </div>
     <hr>
     <div class="container-fluid mb-3">
@@ -98,7 +75,7 @@
             <c:if test="${s.index%2==0}"><div class="row"></c:if>
             <c:if test="${requestScope.history[s.index]!=null}">
                 <div class="col-6">
-                    <span class="info-img text-big">Img${s.index+1}: </span>
+                    <span class="info-img text-big">Img${s.index}: </span>
                     <a href="html/details.jsp?imgId=${requestScope.history[s.index].img.imageId}"
                        class="content text-center">${requestScope.history[s.index].img.title}</a>
                 </div>

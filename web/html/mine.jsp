@@ -44,7 +44,11 @@
                 <a href="html/details.jsp?imgId=${requestScope.img[s.index].imageId}"
                    class="title my-1">${requestScope.img[s.index].title}</a>
                 <a href="html/details.jsp?imgId=${requestScope.img[s.index].imageId}"
-                   class="content content-ellipsis my-1">${requestScope.img[s.index].description}</a>
+                   class="content content-ellipsis my-1">${requestScope.img[s.index].description}
+                <c:if test="${requestScope.img[s.index].description==''}">
+                    You haven't gave a description, click the "Modify" button to add one?
+                </c:if>
+                </a>
                 <div class="btn-toolbar justify-content-end">
                     <div class="btn-group my-1" role="group" aria-label="Basic example">
                         <form method="post" action="html/upload.jsp?imgId=${requestScope.img[s.index].imageId}"><input

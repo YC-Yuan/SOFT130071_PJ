@@ -59,14 +59,14 @@ public class UserDaoImpl extends BaseDao implements UserDao {
     }
 
     @Override
-    public List<User> queryFriendByUID(long UID) {
-        String sql = "SELECT user.*\n" +
-                "FROM friend,user\n" +
-                "WHERE friend.UID2=? AND UID1 =user.UID\n" +
-                "UNION ALL\n" +
-                "SELECT user.*\n" +
-                "FROM friend,user\n" +
-                "WHERE friend.UID1=? AND UID2 =user.UID";
-        return queryForList(User.class, sql, UID, UID);
+    public void favorPublic(long UID) {
+        String sql="update user set ShowFavor=1 where UID=?";
+        update(sql,UID);
+    }
+
+    @Override
+    public void favorPrivate(long UID) {
+        String sql="update user set ShowFavor=2 where UID=?";
+        update(sql,UID);
     }
 }

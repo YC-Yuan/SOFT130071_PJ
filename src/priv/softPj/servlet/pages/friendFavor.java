@@ -14,18 +14,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
-import java.util.function.Consumer;
 
-@WebServlet("/favor")
-public class favor extends HttpServlet {
+@WebServlet("/friendFavor")
+public class friendFavor extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //根据页码获取我的图片
+        //根据页码获取好友的的图片
         ImgDaoImpl imgDao = new ImgDaoImpl();
+        UserDaoImpl userDao = new UserDaoImpl();
 
         long pageCapacity = 6;
-        long uid = (long) request.getSession().getAttribute("UID");
+
+        //这里用好友的收藏
+        long uid = Long.parseLong(request.getParameter("friendUID"));
         long page = (long) request.getAttribute("page");
         long start = pageCapacity * (page - 1);
         long end = pageCapacity * page;
@@ -35,19 +36,17 @@ public class favor extends HttpServlet {
 
         List<Img> imgAll = imgDao.queryImgFavoredByUID(uid);
         request.setAttribute("num", imgAll.size());
-        request.setAttribute("pageNum", tools.ceilFloor(imgAll.size(), pageCapacity));
+        request.setAttribute("pageNum", tools.ceilFloor(imgAll.size(),pageCapacity));
 
         //根据UID获取足迹
         ImgHistoryImpl imgHistory = new ImgHistoryImpl();
         List<ImgHistory> imgHistoryList = imgHistory.queryHistory(uid);
-        request.setAttribute("history", imgHistoryList);
+        request.setAttribute("history",imgHistoryList);
 
-        //根据UID获取自己信息
-        UserDaoImpl userDao = new UserDaoImpl();
+        //搜一下好友的人
         User user = userDao.queryUserByUID(uid);
+        request.setAttribute("friend",user);
 
-        request.setAttribute("user", user);
-
-        request.getRequestDispatcher("/html/favor.jsp").forward(request, response);
+        request.getRequestDispatcher("/html/friendFavor.jsp").forward(request, response);
     }
 }

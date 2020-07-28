@@ -8,4 +8,6 @@ public interface FRFull {
     public List<FriendRequestFull> querySentByUID(long UID);
 
     public List<FriendRequestFull> queryReceiveByUID(long UID);
+
+    public List<FriendRequestFull> queryUserByName(long UID,String name);
 }

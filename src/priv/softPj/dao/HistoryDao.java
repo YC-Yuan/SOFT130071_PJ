@@ -9,5 +9,7 @@ public interface HistoryDao {
 
     public void deleteHistory(long UID,long imgId);
 
+    public void deleteHistoryByImgID(long imgId);
+
     public List<History> queryHistory(long UID);
 }

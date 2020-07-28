@@ -57,4 +57,13 @@ public class tools {
     public static long ceilFloor(long a,long b){
         return (long) Math.ceil((double)a/b);
     }
+
+    public static void friendBack(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if(request.getSession().getAttribute("friendParameter")==null){
+            response.sendRedirect("html/friends.jsp");
+        }else{
+            String friendParameter = (String) request.getSession().getAttribute("friendParameter");
+            response.sendRedirect("friends?searchText="+friendParameter);
+        }
+    }
 }

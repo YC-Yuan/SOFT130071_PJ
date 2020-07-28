@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.*;
 import java.io.IOException;
 
 
@@ -33,6 +34,7 @@ public class login extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("UID", UID);
 
+            JOptionPane.showMessageDialog(null, "Login success!\nWelcome "+userName);
             tools.back(session,response);
         }
     }

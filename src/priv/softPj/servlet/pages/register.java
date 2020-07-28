@@ -13,12 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.dsig.DigestMethod;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @WebServlet("/register")
@@ -29,6 +25,10 @@ public class register extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        System.out.println("--------register--------");
+        System.out.println("userName = " + userName);
+        System.out.println("email = " + email);
+        System.out.println("password = " + password);
 
         //密码加密,pass为加密结果，password为输入内容
         long salt = tools.getRandomSalt();
@@ -55,8 +55,8 @@ public class register extends HttpServlet {
     @Test
     public void test() throws NoSuchAlgorithmException {
 
-        long uid = 0;
-        String password = "";
+        long uid = 42;
+        String password = "abcd1234";
 
         UserDaoImpl userDao = new UserDaoImpl();
         User user = userDao.queryUserByUID(uid);

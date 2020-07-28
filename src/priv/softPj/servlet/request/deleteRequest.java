@@ -1,6 +1,7 @@
-package priv.softPj.servlet.function;
+package priv.softPj.servlet.request;
 
 import priv.softPj.dao.impl.FriendRequestDaoImpl;
+import priv.softPj.servlet.tools;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,15 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/sendRequest")
-public class sendRequest extends HttpServlet {
+@WebServlet("/deleteRequest")
+public class deleteRequest extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long toUID = Long.parseLong(request.getParameter("toUID"));
-        long UID= (long) request.getSession().getAttribute("UID");
+        long deleteId = Long.parseLong(request.getParameter("deleteId"));
 
         FriendRequestDaoImpl friendRequestDao = new FriendRequestDaoImpl();
-        friendRequestDao.sendRequest(UID,toUID);
 
-        response.sendRedirect("html/friends.jsp");
+        friendRequestDao.deleteRequest(deleteId);
+
+        tools.friendBack(request,response);
     }
 }

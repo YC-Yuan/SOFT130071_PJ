@@ -20,6 +20,6 @@ public class deleteFavor extends HttpServlet {
         ImgfavorDaoImpl imgfavorDao = new ImgfavorDaoImpl();
         imgfavorDao.unFavor(uid,deleteId);
 
-        tools.back(request,response);
+        response.sendRedirect("html/favor.jsp");
     }
 }

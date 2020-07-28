@@ -16,5 +16,7 @@ public interface UserDao {
 
     public List<User> queryUserByName(String userName);
 
-    public List<User> queryFriendByUID(long UID);
+    public void favorPublic(long UID);
+
+    public void favorPrivate(long UID);
 }

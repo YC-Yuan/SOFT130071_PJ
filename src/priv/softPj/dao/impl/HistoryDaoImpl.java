@@ -20,6 +20,12 @@ public class HistoryDaoImpl extends BaseDao implements HistoryDao {
     }
 
     @Override
+    public void deleteHistoryByImgID(long imgId) {
+        String sql="delete from history where ImageID=?";
+        update(sql,imgId);
+    }
+
+    @Override
     public List<History> queryHistory(long UID) {
         String sql = "select * from history where UID=? order by HistoryID DESC limit 10";
         return queryForList(History.class, sql, UID);

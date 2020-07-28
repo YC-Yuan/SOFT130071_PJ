@@ -59,14 +59,15 @@
                 class="info-img">${requestScope.imgFull.img.content}</span>
         </div>
         <div class="col-4 justify-content-center text-big">Country：<span
-                class="info-img">${requestScope.imgFull.img.countryCode}</span>
+                class="info-img">${requestScope.imgFull.country.countryName}</span>
         </div>
         <div class="col-4 justify-content-center text-big">City：<span
-                class="info-img">${requestScope.imgFull.img.cityCode}</span>
+                class="info-img">${requestScope.imgFull.city.cityName}</span>
         </div>
     </div>
     <div class="row my-1 mx-1 justify-content-center">
-        <div class="justify-content-center text-big">Upload:<span class="info-img">${requestScope.imgFull.img.time}</span></div>
+        <div class="justify-content-center text-big">Upload:<span
+                class="info-img">${requestScope.imgFull.img.time}</span></div>
     </div>
     <div class="row my-1 mx-1 justify-content-center">
         <p class="title text-mid">Description：</p>

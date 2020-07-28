@@ -19,20 +19,25 @@ import java.util.List;
 public class friends extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userName = request.getParameter("searchText");
+
         long uid = (long) request.getSession().getAttribute("UID");
 
-        UserDaoImpl userDao = new UserDaoImpl();
         FRFullImpl frFull = new FRFullImpl();
+        FriendRequestDaoImpl friendRequestDao = new FriendRequestDaoImpl();
+
+        System.out.println("--------Friends---------");
 
         if (userName != null) {
+            System.out.println("userName = " + userName);
             //根据用户名搜索
-            List<User> users = userDao.queryUserByName(userName);
-            request.setAttribute("users", users);
+            List<FriendRequestFull> users = frFull.queryUserByName(uid, userName);
+            request.setAttribute("users",users);
+            request.getSession().setAttribute("friendParameter", userName);
             System.out.println("users = " + users);
         }
 
         //根据用户搜索好友
-        List<User> friends = userDao.queryFriendByUID(uid);
+        List<User> friends = friendRequestDao.queryFriendsByUID(uid);
 
         request.setAttribute("friends", friends);
 
@@ -48,9 +53,6 @@ public class friends extends HttpServlet {
         System.out.println("requestReceive = " + requestReceive);
         System.out.println("requestSend = " + requestSend);
 
-        System.out.println(requestReceive.get(0).getUser().getUserName());
-        System.out.println(requestReceive.get(0).getUser().getEmail());
-        System.out.println(requestReceive.get(0).getUser().getDateJoined());
 
         request.getRequestDispatcher("html/friends.jsp").forward(request, response);
     }

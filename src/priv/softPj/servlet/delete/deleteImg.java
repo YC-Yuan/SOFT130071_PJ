@@ -1,6 +1,8 @@
 package priv.softPj.servlet.delete;
 
+import priv.softPj.dao.HistoryDao;
 import priv.softPj.dao.ImgfavorDao;
+import priv.softPj.dao.impl.HistoryDaoImpl;
 import priv.softPj.dao.impl.ImgDaoImpl;
 import priv.softPj.dao.impl.ImgfavorDaoImpl;
 import priv.softPj.pojo.Img;
@@ -21,11 +23,13 @@ public class deleteImg extends HttpServlet {
 
         ImgDaoImpl imgDao = new ImgDaoImpl();
         ImgfavorDaoImpl imgfavorDao = new ImgfavorDaoImpl();
+        HistoryDaoImpl historyDao = new HistoryDaoImpl();
 
         Img img = imgDao.queryImgById(deleteId);
 
         imgDao.deleteImg(deleteId);
         imgfavorDao.deleteByImgID(deleteId);
+        historyDao.deleteHistoryByImgID(deleteId);
 
         //File imgFile=new File("C:/Users/AAA/Desktop/Soft仓库/SOFT130071_PJ/web/img/travel/"+img.getPath());
         File imgFile = new File(request.getServletContext().getRealPath("/img/travel/") + img.getPath());

@@ -5,7 +5,7 @@ public class Friendrequest {
 
     private long requestId;
     private long sendUid;
-    private long rceiveUid;
+    private long receiveUid;
     private long status;
 
 
@@ -28,11 +28,11 @@ public class Friendrequest {
 
 
     public long getReceiveUid() {
-        return rceiveUid;
+        return receiveUid;
     }
 
-    public void setReceiveUid(long rceiveUid) {
-        this.rceiveUid = rceiveUid;
+    public void setReceiveUid(long receiveUid) {
+        this.receiveUid = receiveUid;
     }
 
 

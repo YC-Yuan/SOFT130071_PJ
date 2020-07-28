@@ -27,7 +27,7 @@
     <div class="row">
         <%--搜索好友--%>
         <div class="col-3 p-3">
-            <aside class="p-3 bd-form">
+            <aside class="p-3 bd-form w-100">
                 <form id="searcher" action="friends" method="get">
                     <span class="title text-center">Search by username!</span>
                     <div class="input-group my-2">
@@ -35,19 +35,35 @@
                             <span class="input-group-text">User Name:</span>
                         </div>
                         <input type="text" class="form-control" aria-label="Search text" name="searchText"
-                               <c:if test="${param.searchText!=null}">value="${param.searchText}"</c:if>>
+                               <c:if test="${param.searchText!=null}">value="${param.searchText}"</c:if>
+
+                        >
                     </div>
                     <button type="submit" class="btn btn-outline-secondary mx-0">Search</button>
                 </form>
                 <div class="container-fluid bd-content mt-3 p-2">
                     <c:if test="${requestScope.users==null}"><span
                             class="text-info text-mid">Try to find your friends!</span></c:if>
+                    <c:if test="${requestScope.users.size()==0}"><span
+                            class="text-info text-mid">Find nothing</span></c:if>
                     <c:forEach items="${requestScope.users}" varStatus="s">
                         <div class="row justify-content-between px-3 my-1">
-                            <span class="text-mid">${requestScope.users[s.index].userName}</span>
-                            <a href="sendRequest?toUID=${requestScope.users[s.index].uid}">
-                                <button type="button" class="btn btn-info">Send</button>
-                            </a>
+                            <span class="text-center text-info text-mid my-auto">${requestScope.users[s.index].userName}</span>
+                            <c:if test="${requestScope.users[s.index].status==0}">
+                                <form action="sendRequest" method="get">
+                                    <input type="hidden" name="toUID" value="${requestScope.users[s.index].uid}">
+                                    <button type="submit" class="btn btn-outline-info">Send</button>
+                                </form>
+                            </c:if>
+                            <c:if test="${requestScope.users[s.index].status==1&&requestScope.users[s.index].sendUid==sessionScope.UID}">
+                                <button type="button" class="btn btn-dark disabled">Already sent</button>
+                            </c:if>
+                            <c:if test="${requestScope.users[s.index].status==1&&requestScope.users[s.index].receiveUid==sessionScope.UID}">
+                                <button type="button" class="btn btn-dark disabled">Received</button>
+                            </c:if>
+                            <c:if test="${requestScope.users[s.index].status==2}">
+                                <button type="button" class="btn btn-dark disabled">Added</button>
+                            </c:if>
                         </div>
                     </c:forEach>
                 </div>
@@ -70,13 +86,22 @@
                 </c:if>
                 <c:forEach varStatus="s" items="${requestScope.requestReceive}">
                     <div class="row my-2">
-                        <div class="col-3 text-center title">${requestScope.requestReceive[s.index].user.userName}</div>
-                        <div class="col-3 text-center title">${requestScope.requestReceive[s.index].user.email}</div>
-                        <div class="col-3 text-center title">${requestScope.requestReceive[s.index].user.dateJoined}</div>
-                        <div class="col-3 text-center title">
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-outline-success">Accept</button>
-                                <button type="button" class="btn btn-outline-danger">Reject</button>
+                        <div class="col-3 text-center text-info text-mid my-auto">${requestScope.requestReceive[s.index].userName}</div>
+                        <div class="col-3 text-center text-info text-mid my-auto">${requestScope.requestReceive[s.index].email}</div>
+                        <div class="col-3 text-center text-info text-mid my-auto">${requestScope.requestReceive[s.index].dateJoined}</div>
+                        <div class="col-3">
+                            <div class="btn-group" role="group">
+                                <form action="acceptRequest" method="get">
+                                    <input type="hidden" name="acceptId"
+                                           value="${requestScope.requestReceive[s.index].requestId}">
+                                    <button type="submit" class="btn btn-outline-success">Accept</button>
+
+                                </form>
+                                <form action="deleteRequest" method="get">
+                                    <input type="hidden" name="deleteId"
+                                           value="${requestScope.requestReceive[s.index].requestId}">
+                                    <button type="submit" class="btn btn-outline-danger">Reject</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -96,14 +121,15 @@
                 </c:if>
                 <c:forEach varStatus="s" items="${requestScope.requestSend}">
                     <div class="row my-2">
-                        ${1}
-                        ${requestScope.requestSend[s.index].friendrequest.receiveUid}
-                        ${requestScope.requestSend[s.index].user.dateJoined}
-                        <div class="col-3 text-center title">${requestScope.requestSend[s.index].user.userName}</div>
-                        <div class="col-3 text-center title">${requestScope.requestSend[s.index].user.email}</div>
-                        <div class="col-3 text-center title">${requestScope.requestSend[s.index].user.dateJoined}</div>
+                        <div class="col-3 text-center text-info text-mid my-auto">${requestScope.requestSend[s.index].userName}</div>
+                        <div class="col-3 text-center text-info text-mid my-auto">${requestScope.requestSend[s.index].email}</div>
+                        <div class="col-3 text-center text-info text-mid my-auto">${requestScope.requestSend[s.index].dateJoined}</div>
                         <div class="col-3">
-                            <button type="button" class="btn btn-outline-info">Recall</button>
+                            <form action="deleteRequest" method="get">
+                                <input type="hidden" name="deleteId"
+                                       value="${requestScope.requestSend[s.index].requestId}">
+                                <button type="submit" class="btn btn-outline-info">Recall</button>
+                            </form>
                         </div>
                     </div>
                 </c:forEach>
@@ -123,15 +149,17 @@
                 <%--                    需要补充好友收藏页面的跳转链接--%>
                 <c:forEach varStatus="s" items="${requestScope.friends}">
                     <div class="row my-2">
-                        <div class="col-3 text-center title text-sm">${requestScope.friends[s.index].userName}</div>
-                        <div class="col-3 text-center title text-sm">${requestScope.friends[s.index].email}</div>
-                        <div class="col-3 text-center title text-sm">${requestScope.friends[s.index].dateJoined}</div>
-                        <div class="col-3 text-center title text-sm">
+                        <div class="col-3 text-center text-info text-mid my-auto">${requestScope.friends[s.index].userName}</div>
+                        <div class="col-3 text-center text-info text-mid my-auto">${requestScope.friends[s.index].email}</div>
+                        <div class="col-3 text-center text-info text-mid my-auto">${requestScope.friends[s.index].dateJoined}</div>
+                        <div class="col-3 text-center text-info text-mid my-auto">
                             <c:if test="${requestScope.friends[s.index].showFavor==1}">
-                                <button class="btn-outline-info">See favor</button>
+                                <a href="html/friendFavor.jsp?friendUID=${requestScope.friends[s.index].uid}">
+                                    <button type="button" class="btn btn-outline-info">See favor</button>
+                                </a>
                             </c:if>
                             <c:if test="${requestScope.friends[s.index].showFavor!=1}">
-                                <button class="btn-outline-light">Disabled</button>
+                                <button type="button" class="btn btn-outline-dark disabled">Disabled</button>
                             </c:if>
                         </div>
 

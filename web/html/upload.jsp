@@ -99,10 +99,12 @@
     </div>
     <div class="row p-0 m-0 justify-content-center">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary mx-auto d-none" data-toggle="modal" data-target="#uploadModal" id="modal">
+        <button type="button" class="btn btn-primary mx-auto d-none" data-toggle="modal" data-target="#uploadModal"
+                id="modal">
         </button>
         <!-- Modal -->
-        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -112,11 +114,16 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        Sure to upload?
+                        Sure to <c:if test="${!empty param.imgId}">modify?</c:if>
+                        <c:if test="${empty param.imgId}">upload?</c:if><br>
+                        Please check the information!
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                        <button type="submit" class="btn btn-primary" id="submit">Upload</button>
+                        <button type="submit" class="btn btn-primary" id="submit">
+                            <c:if test="${!empty param.imgId}">Modify</c:if>
+                            <c:if test="${empty param.imgId}">Upload</c:if>
+                        </button>
                     </div>
                 </div>
             </div>
