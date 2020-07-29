@@ -33,6 +33,11 @@
         <label for="password" class="info text-mid">Password</label>
         <input type="password" class="form-control" id="password" name="password" placeholder="your password here" required>
     </div>
+    <div class="form-group">
+        <label for="verificationCode" class="info text-mid">Verification</label>
+        <input type="password" class="form-control" id="verificationCode" name="verificationCode" placeholder="input verification content" required>
+        <img src="verificationCode" class="mt-2" id="verificationImg" alt="verificationCode"/>
+    </div>
     <button type="submit" id="submit" class="btn btn-light"><span class="info text-mid">Login</span></button>
     <hr>
     <h2 class="text-mid">No account? <a href="html/register.jsp" class="text-mid info">Click to register</a></h2>
@@ -53,6 +58,7 @@
 
 <!--js-->
 <script src="js/passwordEncrypt.js"></script>
+<script src="js/verification&Encrypt.js"></script>
 
 </body>
 </html>

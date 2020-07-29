@@ -42,6 +42,11 @@
         <label for="passwordConfirm" class="info text-mid">ConfirmPassword</label>
         <input type="password" class="form-control" id="passwordConfirm" placeholder="your password again" required>
     </div>
+    <div class="form-group">
+        <label for="verificationCode" class="info text-mid">Verification</label>
+        <input type="password" class="form-control" id="verificationCode" name="verificationCode" placeholder="input verification content" required>
+        <img src="verificationCode" class="mt-2" id="verificationImg" alt="verificationCode"/>
+    </div>
     <button type="submit" id="submit" class="btn btn-light text-mid info">Register</button>
     <div id="div"></div>
     <a href="html/home.jsp" class="text-mid info">Browse without account</a>
@@ -61,6 +66,7 @@
 <!--js-->
 <script src="js/registerValidity.js"></script>
 <script src="js/passwordEncrypt.js"></script>
+<script src="js/verification&Encrypt.js"></script>
 
 </body>
 </html>

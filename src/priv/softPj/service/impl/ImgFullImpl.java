@@ -44,9 +44,6 @@ public class ImgFullImpl implements ImgFullService {
 
         List<Img> imgHot = imgDao.queryImgHot(num);
         List<ImgFull> imgFullList = new ArrayList<ImgFull>();
-        for (int i = 0; i < imgHot.size(); i++) {
-
-        }
         imgHot.forEach(img -> {
             ImgFull imgFull = new ImgFull();
             imgFull.setImg(img);
@@ -64,9 +61,6 @@ public class ImgFullImpl implements ImgFullService {
 
         List<Img> imgNew = imgDao.queryImgNew(num);
         List<ImgFull> imgFullList = new ArrayList<ImgFull>();
-        for (int i = 0; i < imgNew.size(); i++) {
-
-        }
         imgNew.forEach(img -> {
             ImgFull imgFull = new ImgFull();
             imgFull.setImg(img);

@@ -5,6 +5,7 @@ passwordConfirm = document.getElementById("passwordConfirm");
 submit = document.getElementById("submit");
 strength = document.getElementById("passwordStrength");
 
+
 let repetition = false;
 
 userName.addEventListener("input", function () {

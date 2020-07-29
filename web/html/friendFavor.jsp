@@ -33,7 +33,7 @@
 <div id="repository" class="containe bd-form mx-auto my-3 p-0 repository-color justify-content-center">
     <h1 class="title text-big text-center">${requestScope.friend.userName}'s Favor</h1>
     <c:if test="${requestScope.num==0}">
-        <div class="repository-box p-2 "><p class="text-big info-img text-center">Try to favor photo you like!<br/>You
+        <div class="repository-box p-2 "><p class="text-big text-info text-center">Try to favor photo you like!<br/>You
             can favor any photo in details page(click the photo)~</p></div>
     </c:if>
     <c:forEach items="${requestScope.img}" varStatus="s">
@@ -75,7 +75,7 @@
             <c:if test="${s.index%2==0}"><div class="row"></c:if>
             <c:if test="${requestScope.history[s.index]!=null}">
                 <div class="col-6">
-                    <span class="info-img text-big">Img${s.index}: </span>
+                    <span class="text-info text-big">Img${s.index}: </span>
                     <a href="html/details.jsp?imgId=${requestScope.history[s.index].img.imageId}"
                        class="content text-center">${requestScope.history[s.index].img.title}</a>
                 </div>

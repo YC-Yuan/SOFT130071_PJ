@@ -1,4 +1,4 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.function;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -6,6 +6,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.junit.Test;
 import priv.softPj.dao.impl.ImgDaoImpl;
+import priv.softPj.servlet.tools;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;

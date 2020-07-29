@@ -1,4 +1,4 @@
-package priv.softPj.servlet;
+package priv.softPj.servlet.function;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;

@@ -82,9 +82,9 @@
         <div class="col-9 p-3 m-0">
             <!--browser begin-->
             <div id="content">
-                <c:if test="${requestScope.img==null}"><p class="info-img text-big text-center">
+                <c:if test="${requestScope.img==null}"><p class="text-info text-big text-center">
                     Search photos by title or content!</p></c:if>
-                <c:if test="${requestScope.num==0}"><p class="info-img text-big text-center">
+                <c:if test="${requestScope.num==0}"><p class="text-info text-big text-center">
                     No eligible photo!</p></c:if>
                 <table class="w-100">
                     <%--输出9图，三行*3列--%>

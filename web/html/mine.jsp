@@ -32,7 +32,7 @@
 <div id="repository" class="container bd-form mx-auto my-3 p-0 repository-color">
     <h1 class="title text-big text-center">My Photo</h1>
     <c:if test="${requestScope.num==0}">
-        <div class="repository-box p-2 "><p class="text-big info-img text-center">Try to upload your own photo!<br/>You
+        <div class="repository-box p-2 "><p class="text-big text-info text-center">Try to upload your own photo!<br/>You
             can find Upload in UserCenter~</p></div>
     </c:if>
 
