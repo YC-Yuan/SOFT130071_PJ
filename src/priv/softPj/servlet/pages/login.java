@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 
 
@@ -33,9 +34,9 @@ public class login extends HttpServlet {
             long UID = user.getUid();
             HttpSession session = request.getSession();
             session.setAttribute("UID", UID);
+            request.setAttribute("userName",userName);
 
-            JOptionPane.showMessageDialog(null, "Login success!\nWelcome "+userName);
-            tools.back(session,response);
+            request.getRequestDispatcher("html/common/alertWelcome.jsp").forward(request,response);
         }
     }
 }

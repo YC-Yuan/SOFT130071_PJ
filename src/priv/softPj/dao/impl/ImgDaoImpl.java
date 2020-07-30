@@ -141,6 +141,13 @@ public class ImgDaoImpl extends BaseDao implements ImgDao {
         update(sql, title, description, cityCode, countryCode, uid, path, content);
     }
 
+    @Test
+    public void test(){
+        CityDaoImpl cityDao = new CityDaoImpl();
+        System.out.println("cityDao.queryByName(\"shanghai\") = " + cityDao.queryByName("shanghai").getCityCode());
+
+    }
+
     @Override
     public void deleteImg(long imgId) {
         Img img = queryImgById(imgId);

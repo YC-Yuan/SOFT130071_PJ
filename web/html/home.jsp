@@ -54,11 +54,16 @@
             <a href="html/details.jsp?imgId=${requestScope.imgNew[s.index].img.imageId}"><img
                     src="img/travel/${requestScope.imgNew[s.index].img.path}" alt="latestImg"></a>
             <div class="hotDiv container-ellipsis">
-                <a href="html/details.jsp?imgId=${requestScope.imgNew[s.index].img.imageId}" class="title text-big">${requestScope.imgNew[s.index].img.title}</a>
-                <div class="text-sm">Author:<span class="text-info">${requestScope.imgNew[s.index].user.userName}</span></div>
-                <div class="text-sm">Content:<span class="text-info">${requestScope.imgNew[s.index].img.content}</span></div>
-                <div class="text-sm">Upload:<span class="text-info"><fmt:formatDate value="${requestScope.imgNew[s.index].img.time}" pattern="yyyy-MM-dd HH:mm:ss" /></span></div>
-                <a href="html/details.jsp?imgId=${requestScope.imgNew[s.index].img.imageId}" class="hotImgContent content content-ellipsis text-mid">
+                <a href="html/details.jsp?imgId=${requestScope.imgNew[s.index].img.imageId}"
+                   class="title text-big">${requestScope.imgNew[s.index].img.title}</a>
+                <div class="text-sm">Author:<span class="text-info">${requestScope.imgNew[s.index].user.userName}</span>
+                </div>
+                <div class="text-sm">Content:<span class="text-info">${requestScope.imgNew[s.index].img.content}</span>
+                </div>
+                <div class="text-sm">Upload:<span class="text-info"><fmt:formatDate
+                        value="${requestScope.imgNew[s.index].img.time}" pattern="yyyy-MM-dd HH:mm:ss"/></span></div>
+                <a href="html/details.jsp?imgId=${requestScope.imgNew[s.index].img.imageId}"
+                   class="hotImgContent content content-ellipsis text-mid">
                     <c:if test="${requestScope.imgNew[s.index].img.description==''}">The author said nothing</c:if>
                         ${requestScope.imgNew[s.index].img.description}
                 </a></div>

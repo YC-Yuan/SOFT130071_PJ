@@ -38,32 +38,36 @@ public class tools {
         return sb.toString();
     }
 
-    public  static long getRandomSalt(){
+    public static long getRandomSalt() {
         return (long) (Math.random() * Math.pow(10, 10));
     }
 
-    public static String getFileType(String name){
+    public static String getFileType(String name) {
         return name.substring(name.lastIndexOf('.'));
     }
 
-    public static boolean deleteImgFile(String name){
-        File imgFile=new File("C:/Users/AAA/Desktop/Soft仓库/SOFT130071_PJ/web/img/travel/"+name);
-        if(imgFile.isFile()&&imgFile.exists()){
+    public static boolean deleteImgFile(String name) {
+        File imgFile = new File("C:/Users/AAA/Desktop/Soft仓库/SOFT130071_PJ/web/img/travel/" + name);
+        if (imgFile.isFile() && imgFile.exists()) {
             return imgFile.delete();
-        }
-        else return false;
+        } else return false;
     }
 
-    public static long ceilFloor(long a,long b){
-        return (long) Math.ceil((double)a/b);
+    public static long ceilFloor(long a, long b) {
+        return (long) Math.ceil((double) a / b);
     }
 
     public static void friendBack(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if(request.getSession().getAttribute("friendParameter")==null){
+        if (request.getSession().getAttribute("friendParameter") == null) {
             response.sendRedirect("html/friends.jsp");
-        }else{
+        } else {
             String friendParameter = (String) request.getSession().getAttribute("friendParameter");
-            response.sendRedirect("friends?searchText="+friendParameter);
+            response.sendRedirect("friends?searchText=" + friendParameter);
         }
+    }
+
+    public static void detailsBack(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        long imgId = Long.parseLong(request.getParameter("imgId"));
+        response.sendRedirect("html/details.jsp?imgId=" + imgId);
     }
 }

@@ -1,4 +1,4 @@
-package priv.softPj.servlet.function;
+package priv.softPj.servlet.delete;
 
 import priv.softPj.dao.impl.CommentDaoImpl;
 import priv.softPj.servlet.tools;
@@ -10,23 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/postComment")
-public class postComment extends HttpServlet {
+@WebServlet("/deleteComment")
+public class deleteComment extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doGet(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String postComment = request.getParameter("postComment");
-        String userName = request.getParameter("userName");
-        long imgId = Long.parseLong(request.getParameter("imgId"));
-        long uid = (long) request.getSession().getAttribute("UID");
-
+        long commentId = Long.parseLong(request.getParameter("commentId"));
 
         CommentDaoImpl commentDao = new CommentDaoImpl();
+        commentDao.delete(commentId);
 
-        commentDao.insert(imgId, uid, postComment, userName);
-
-        tools.detailsBack(request,response);
+        tools.detailsBack(request, response);
     }
 }

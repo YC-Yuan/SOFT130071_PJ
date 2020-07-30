@@ -10,7 +10,12 @@ import java.util.List;
 public class CommentDaoImpl extends BaseDao implements CommentDao {
     @Override
     public List<Comment> queryByTime(long imgId) {
-        String sql = "SELECT * FROM `comment` WHERE ImageID= ? ORDER BY Time";
+        String sql = "SELECT comment.* ,COUNT(commentfavor.CommentID) as favorNum \n" +
+                "FROM comment LEFT JOIN commentfavor\n" +
+                "ON comment.CommentID = commentfavor.CommentID\n" +
+                "WHERE comment.ImageID=?\n" +
+                "GROUP BY comment.CommentID\n" +
+                "ORDER BY comment.Time DESC";
         return queryForList(Comment.class, sql, imgId);
     }
 
@@ -20,9 +25,18 @@ public class CommentDaoImpl extends BaseDao implements CommentDao {
                 "FROM comment LEFT JOIN commentfavor\n" +
                 "ON comment.CommentID = commentfavor.CommentID\n" +
                 "WHERE comment.ImageID=?\n" +
-                "GROUP BY commentfavor.CommentID\n" +
+                "GROUP BY comment.CommentID\n" +
                 "ORDER BY favorNum DESC";
         return queryForList(Comment.class, sql, imgId);
+    }
+
+    @Test
+    public void test(){
+        List<Comment> comments = queryByHeat(1);
+        comments.forEach(comment -> {
+            System.out.println("comment.getFavorNum() = " + comment.getFavorNum());
+        });
+
     }
 
     @Override

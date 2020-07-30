@@ -1,4 +1,3 @@
-
 //img.file.title.content.country.city
 let img = document.getElementById("uploadedImg");
 
@@ -88,6 +87,14 @@ city.addEventListener("input", function () {//检测是城市名合法性
         request.send();
     }
 }, false);
+
+form.addEventListener("keypress", function (e) {
+    if(e.key==="Enter"){
+    // console.log("enter pressed!");
+    e.preventDefault();
+    checkValidity.click();
+    }
+},false);
 
 checkValidity.addEventListener("click", function (e) {
     //img必须要有

@@ -45,6 +45,7 @@ public class uploadImg extends HttpServlet {
                 for (FileItem fileItem : fileItems) {
                     if (fileItem.isFormField()) {//普通表单项
                         infos.put(fileItem.getFieldName(), fileItem.getString("UTF-8"));
+                        System.out.println(fileItem.getFieldName()+":"+fileItem.getString("UTF-8"));
                     } else if (fileItem.getSize() != 0) {//上传的图片，处理path，储存文件
                         path = fileItem.getName();
                         while (imgDao.queryIsPathExist(path)) {
@@ -67,6 +68,7 @@ public class uploadImg extends HttpServlet {
         System.out.println(infos);
         //根据解析结果对接数据库
         if (infos.get("imgId") == null) {//新图片上传
+
             imgDao.insertImg(infos.get("title"), infos.get("description"), infos.get("city"), infos.get("country"), uid, path, infos.get("content"));
             long imgId = imgDao.queryImgByPath(path).getImageId();
             response.sendRedirect("html/details.jsp?imgId=" + imgId);

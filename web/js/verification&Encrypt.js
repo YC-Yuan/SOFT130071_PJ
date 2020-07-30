@@ -15,7 +15,8 @@ form.addEventListener("submit", function (e) {
     if (inputCode !== realCode) {
         e.preventDefault();
         verificationImg.click();
-        alert("Wrong verification code!")
+        code.value="";
+        alert("Wrong verification code!");
     }else input.value=sha1(input.value);
 }, false);
 
