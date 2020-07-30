@@ -176,3 +176,162 @@ head.jsp中设定了编码信息、引入了JSTL标签库、bootstrap、公用cs
 
 #### 2.2.1 导航栏
 
+大部分页面公用的导航栏也进行了抽象，但是根据页面的不同需要额外指明当前所在页面（以便在视图上有所区别）
+
+```Java
+    <!--navigation begin-->
+    <%@include file="common/navigation.jsp" %>
+    <script>document.getElementById("navigation").children[1].className = "currentPage"</script>
+    <!--navigation end-->
+```
+
+#### 2.2.2 注册与登录
+
+##### 注册
+
+注册将用ajax实现对用户名重复的查询，表单合法性统一用setCustomValidity进行提示，增强同类机制的亲密性。
+
+对文本框的input事件进行绑定，避免了ajax请求未完成而请求已提交的情况。
+
+* ajax对应内容以事件绑定触发，即使同步请求也会错过阻止提交 
+
+密码强度并非合法性的一部分，只是建议采取高强度密码，采用不同的UI。
+
+注册成功后跳转到直接登录servlet，理所当然地验证成功并不需要再次验证。（也算是一部分controller功能）
+
+##### 登录
+
+登录的成功失败统一用alert提示。
+
+但成功后需要先跳转到提示页面进行alert，再进行重定向。而重定向会破坏alert！
+
+因而改为采用借助el表达式设置window.location.href，兼得统一的alert方式与跳转到先前浏览页面的要求
+
+```Javascript
+    alert("Welcome!  ${requestScope.userName}");
+    if (${sessionScope.prePage!=null}) {
+        window.location.href = "${sessionScope.prePage.toString()}";
+    } else {
+        window.location.href = "html/home.jsp";
+    }
+```
+
+##### 验证码
+
+分为前段后端两部分，后端生成验证码并将答案储存在session域中。
+
+前段展示验证码（并提供刷新验证码的控制），并完成验证。前端验证能够兼顾在密码加密功能安全性的情况下，验证失败不刷新密码。同时，验证码的验证功能其实并未受损，私以为比后端验证更加用户友好。
+
+本项目的验证失败完全不影响表单内容，不触发请求，故不启动加密、也不需要将原本的密码储存在其他地方（伴随抓包泄露风险）。失败仅清空验证码并自动刷新。
+
+**超星网的后端验证验证码就常常莫名失败，并且刷掉我的密码**
+
+##### 加密
+
+注册与登录在请求提交时都会使用sha1进行一次加密，避免抓包泄露原密码。
+
+注册时，将随机生成salt，并连接在一次加密的密码后，再次进行sha1加密。数据库中储存二次sha1加密结果与salt。登录时读取salt，与一次加密的密码连接，再次加密进行验证。
+
+#### 2.2.3 首页
+
+轮播展示3张最热图片
+
+下方展示6张最新图片，包含作者、主题、上传时间
+
+#### 2.2.4 搜索页
+
+可以自主选择根据标题/主题搜索，并按上传时间或热度排序。搜索内容和方式将被记住，除非离开搜索页。
+
+##### 分页
+
+每页九宫格进行分页，分页页码最多显示5个（在总页数足够时始终5个），附带前一页、后一页、首页、末页跳转。
+
+收藏和我的图片页面也是每页6张。（横向分割，竖直排列）
+
+#### 2.2.5 详情页面
+
+展示图片详细信息，登录后可以收藏（ajax实现），不登录则在收藏位置提醒登录。
+
+##### 放大镜功能
+
+主要用js依靠offset属性和事件绑定实现。
+
+页面中放置原图和放大图，原图上设置放大镜窗口，而大图只能透过固定的窗口展现。
+
+鼠标移入时，显示放大镜与大图窗口。根据鼠标移动位置决定放大镜位置。根据放大镜在原图中的位置，按比例改变大图漏出窗口的部分。（移动的是大图图片本身，所以与放大镜方向相反）
+
+```Javascript
+smallBox.onmousemove = function (e) {
+        let left = e.pageX - smallBox.offsetLeft - floatBox.offsetWidth / 2;
+        let top = e.pageY - smallBox.offsetTop - floatBox.offsetHeight / 2;
+
+        left = Math.max(left, 0);
+        left = Math.min(left, smallBox.offsetWidth - floatBox.offsetWidth);
+
+        top = Math.max(top, 0);
+        top = Math.min(top, smallBox.offsetHeight - floatBox.offsetHeight);
+
+        floatBox.style.left = left + "px";
+        floatBox.style.top = top + "px";
+
+        let percentX = left / (smallBoxImage.offsetWidth - floatBox.offsetWidth);
+        let percentY = top / (smallBoxImage.offsetHeight - floatBox.offsetHeight);
+
+        bigBoxImage.style.left = -percentX * (bigBoxImage.offsetWidth - bigBox.offsetWidth) + "px";
+        bigBoxImage.style.top = -percentY * (bigBoxImage.offsetHeight - bigBox.offsetHeight) + "px";
+    }
+```
+
+##### 评论功能
+
+不登录时显示但不可用，结合收藏和点赞功能提醒用户登录。
+
+登录后可以发表评论、为评论点赞。
+
+用户可以删除自己发表的评论或自己图片下的任何评论。
+
+评论区可以选择按发布时间或点赞数排序。
+
+#### 2.2.6 上传界面
+
+除description部分都要求填写
+
+城市、国家未采用下拉框，因为大国的城市数量太多，上万选项列表使用体验较差。
+
+城市、国家采用文本框输入，结合ajax实时检测合法性，并模糊搜索给出提示。鼓励用户自主输入，同时又能指导用户输入符合数据库约束的内容。
+
+修改图片将帮助用户填入先前的内容，并将上传等提示改为修改。
+
+##### 模态框确认
+
+对于上传图片和大部分的删除，不会点击一次生效，而要弹出模态框要求确认。
+
+上传部分的模态框尤其难实现，因为第一次点击需要进行合法性检测、但又不能触发提交，检测过程则需要统一采用原生检测方式，以触发validity提醒。（原生检测和表单提交未找到分割方式）
+
+本项目进行额外的检测，如不通过，再进行原生检测。如果通过，阻止整个表单提交过程（也阻止了原生检测，但在通过的情况下，并不需要原生检测进行提示），并弹出模态框。
+
+#### 2.2.7 我的照片
+
+可以修改或删除上传的照片，有分页。
+
+#### 2.2.8 我的收藏
+
+可以移除已有收藏，有分页。
+
+收藏页可以设定收藏是否向好友公开。
+
+下方显示我的足迹，记录最近浏览的10个图片。（不重复，在图片删除后顺延删除）
+
+#### 2.2.9 好友列表
+
+可以模糊搜索用户名加好友，以发送请求的、正给我发送请求的、已经是好友的无法再次发送。
+
+可以处理收到的好友请求（接受或拒绝）、选择撤回送出的好友请求。
+
+已添加的好友，可以选择删除或查看对方收藏。（需要对方在收藏页面设置公开，否则无法查看）
+
+### 2.3 云部署
+
+使用阿里云服务器，Tomcat9.0的Webapps目录下放置war包部署
+
+浏览器地址栏输入121.89.211.146即可查看（域名需要备案，故不采用）

@@ -1,0 +1,44 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body, div, span, h1, h2, h3, h4, h5,
+h6, p, blockquote, a, address, big, cite,
+img, q, s, small, strong, center, ol, ul, li,
+form, label, table, tr, th, td,
+article, aside, footer, header,menu, nav,section,
+audio, video {
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+/*适用于老版浏览器*/
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
